@@ -1,22 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const userController = require('../controllers/userController');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
-// CRUD operations
-router.post('/', userController.createUser);
-router.get('/:id', userController.getUser);
-router.patch('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
-
-module.exports = router;
-
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { Schema, model } = mongoose;
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-// Minimum 8 charachters, at least 1 letter and 1 number
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-// Having a lenght of 3 to 16 charachters, may include - or _
 const usernameRegex = /^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/;
 
 const userSchema = new Schema({
@@ -35,7 +23,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        rim: true,
+        trim: true,
         lowercase: true,
         unique: true,
         match: [emailRegex, 'Please fill a valid email address']
@@ -54,8 +42,8 @@ const userSchema = new Schema({
         required: true
     },
     debates: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Debate'
+        type: Schema.Types.ObjectId,
+        ref: 'Debate'
     }],
     inDebate: {
         type: Boolean,
@@ -65,8 +53,13 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     }
-}, {timestamps: true});
+}, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
+userSchema.pre('save', async function(next){
+    if(this.isModified('hashed_pwd')){
+        const salt = await bcrypt.hash(this.hashed_pwd, salt);
+    }
+});
 
-model.exports = User;
+const User = mongoose.model('User', userSchema)
+export default User;

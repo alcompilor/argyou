@@ -1,5 +1,4 @@
-const User = require('../models/User');
-
+import User from '../models/User';
 
 exports.createUser = async (req, res) => {
     app.post('/api/users', async (req, res) => {

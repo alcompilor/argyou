@@ -1,7 +1,11 @@
+// Import necessary libraries and modules
 import express from "express";
+import mongoose from 'mongoose';
 import helmet from "helmet";
 import dotenv from "dotenv";
+import userRoutes from './routers/users';
 import { mountDB, unmountDB } from "./utils/dbConnection.js";
+
 dotenv.config();
 
 const EXPRESS_PORT = 3000;
@@ -15,6 +19,12 @@ server.use(helmet());
 
 // Here should routers be used:
 // ex: server.use("/debates", debatesRouter);
+server.use('/api/users', userRoutes);
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () =>{
+    console.log(`Server is running on port ${PORT}`);
+});
 
 server.listen(EXPRESS_PORT, (err) => {
     err
@@ -27,15 +37,7 @@ process.on('SIGINT', async () => {
     process.exit(0);
 });
 
-const express = require('express');
-const mongoose = require('mongoose');
-const userRoutes = require('./routers/users');
-const User = require('./models/User');
-
-require('dotenv').config();
-
-const app = express();
-app.use(express.json()); // Middleware for parsing JSON 
+server.use(express.json()); // Middleware for parsing JSON 
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URL, {
@@ -44,10 +46,3 @@ mongoose.connect(process.env.MONGODB_URL, {
 })
 .then(() => console.log('Connected to MongoDB'))
 .catch((err) => console.error('Could not connect to MongoDB:', err));
-
-app.use('/api/users', userRoutes);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>{
-    console.log(`Server is running on port ${PORT}`);
-});
