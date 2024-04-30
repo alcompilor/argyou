@@ -1,6 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import { mountDB, unmountDB } from "./utils/dbConnection.js";
 dotenv.config();
 
@@ -11,6 +12,7 @@ mountDB();
 // Assign middlewares
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
+server.use(cookieParser());
 server.use(helmet());
 
 // Here should routers be used:
