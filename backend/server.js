@@ -3,6 +3,7 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { mountDB, unmountDB } from "./utils/dbConnection.js";
+import usersRouter from './routers/users.js'; 
 dotenv.config();
 
 const EXPRESS_PORT = 3000;
@@ -17,6 +18,7 @@ server.use(helmet());
 
 // Here should routers be used:
 // ex: server.use("/debates", debatesRouter);
+server.use("/api/v1/users", usersRouter);
 
 server.listen(EXPRESS_PORT, (err) => {
     err
