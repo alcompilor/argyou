@@ -1,38 +1,26 @@
 import express from "express";
-import http from "http";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import { mountDB, unmountDB } from "./utils/dbConnection.js";
-import { Server } from "socket.io";
 import usersRouter from './routers/users.js';
 import authRouter from "./routers/authRouter.js";
 dotenv.config();
 
-const app = express();
-
 const EXPRESS_PORT = 3000;
-const server = http.createServer(express());
-const io = new Server(server, {
-    cors: {
-        origin: "http://localhost:3000",
-        methods: ["GET", "POST", "PUT", "DELETE"],
-    },
-});
+const server = express();
 mountDB();
 
 // Assign middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(helmet());
-app.use(cors());
+server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
+server.use(cookieParser());
+server.use(helmet());
 
 // Here should routers be used:
 // ex: server.use("/debates", debatesRouter);
-app.use("/api/v1/users", usersRouter);
-app.use('/api/v1/auth', authRouter);
+server.use("/api/v1/users", usersRouter);
+server.use("/api/v1/auth", authRouter);
 
 server.listen(EXPRESS_PORT, (err) => {
     err
