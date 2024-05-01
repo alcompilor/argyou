@@ -3,7 +3,7 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { mountDB, unmountDB } from "./utils/dbConnection.js";
-import usersRouter from './routers/users.js';
+import usersRouter from "./routers/usersRouter.js";
 import authRouter from "./routers/authRouter.js";
 dotenv.config();
 
