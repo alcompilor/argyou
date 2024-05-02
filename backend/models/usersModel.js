@@ -1,23 +1,22 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const { Schema, model } = mongoose;
-
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/><.,])(?!.*\s).{10,}$/;
 const usernameRegex = /^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/;
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
         trim: true
     },
-    userName: {
+    username: {
         type: String,
         required: true,
         trim: true,
         lowercase: true,
+        unique: true,
         match: [usernameRegex, 'Please fill a valid username']
     },
     email: {
@@ -28,11 +27,11 @@ const userSchema = new Schema({
         unique: true,
         match: [emailRegex, 'Please fill a valid email address']
     },
-    birthdate: {
+    birthDate: {
         type: Date,
         required: true
     },
-    hashed_pwd: {
+    password: {
         type: String,
         required: true,
         match: [passwordRegex, 'Password is not strong enough']
@@ -41,10 +40,7 @@ const userSchema = new Schema({
         type: Boolean,
         required: true
     },
-    debates: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Debate'
-    }],
+    debates: [String],
     inDebate: {
         type: Boolean,
         default: false
@@ -55,11 +51,23 @@ const userSchema = new Schema({
     }
 }, { timestamps: true });
 
-userSchema.pre('save', async function(next){
-    if(this.isModified('hashed_pwd')){
-        const salt = await bcrypt.hash(this.hashed_pwd, salt);
+userSchema.pre('save', async function(next) {
+    if (this.isModified('password')) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(this.password, salt);
+        this.password = hashedPassword;
     }
+    next();
 });
 
-const User = mongoose.model('User', userSchema)
+userSchema.pre('findOneAndUpdate', async function (next) {
+    const data = this.getUpdate();
+    
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(data.password, salt);
+    data.password = hashedPassword;
+    next();
+});
+
+const User = mongoose.model('User', userSchema);
 export default User;
