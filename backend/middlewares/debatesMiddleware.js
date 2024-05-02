@@ -58,13 +58,19 @@ export const deleteDebate = async (req, res) => {
     }
 }
 
-export const joinDebate = async (req, res) => {
+export const updateDebate = async (req, res) => {
     try {
-        const { username } = req.body;
+        const fields = req.body;
         const { id } = req.params;
+
+        const updateFields = {};
+        Object.entries(fields).forEach(([key, value]) => {
+            updateFields[key] = value;
+        });
+
         const debate = await Debate.findOneAndUpdate(
             { _id: id },
-            { opponentUsername: username },
+            updateFields,
             { new: true }
         );
 

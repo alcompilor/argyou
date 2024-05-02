@@ -2,7 +2,7 @@ import {
     getAllDebates, 
     getDebate, 
     createDebate, 
-    joinDebate, 
+    updateDebate, 
     deleteDebate, 
     addMessage, 
     addComment 
@@ -19,7 +19,7 @@ debatesRouter.post('/', createDebate);
 
 debatesRouter.delete('/:id', deleteDebate);
 
-debatesRouter.put('/joinDebate/:id', joinDebate);
+debatesRouter.put('/:id', updateDebate);
 
 debatesRouter.put('/addMessage/:id', addMessage);
 
