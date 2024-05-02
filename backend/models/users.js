@@ -57,8 +57,10 @@ const userSchema = new Schema({
 
 userSchema.pre('save', async function(next){
     if(this.isModified('hashed_pwd')){
-        const salt = await bcrypt.hash(this.hashed_pwd, salt);
+        const saltRounds = 8;
+        this.hashed_pwd = await bcrypt.hash(this.hashed_pwd, saltRounds);
     }
+    next();
 });
 
 const User = mongoose.model('User', userSchema)
