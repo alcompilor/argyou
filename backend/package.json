@@ -5,12 +5,15 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js wsServer.js"
+    "start": "concurrently 'npm run startServer' 'npm run startWsServer'",
+    "startServer": "nodemon server.js",
+    "startWsServer": "nodemon wsServer.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
