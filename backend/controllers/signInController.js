@@ -1,6 +1,6 @@
-import User from './models/users.js';  
+import User from './models/usersModel.js';  
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptj';
 
 export async function signIn(req, res) {
     try {
@@ -17,7 +17,7 @@ export async function signIn(req, res) {
         }
 
         const token = jwt.sign(
-            { userId: user._id, role: user.isAdmin ? 'admin' : 'user' }, 
+            { userId: user._username, role: user.isAdmin ? 'true' : 'false' }, 
             process.env.SECRET_KEY, 
             { expiresIn: '1h' }
         );
