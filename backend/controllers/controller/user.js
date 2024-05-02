@@ -1,56 +1,71 @@
 import User from '../models/User';
 
-exports.createUser = async (req, res) => {
-    app.post('/api/users', async (req, res) => {
+const usersController = {
+    createUser: async (req, res) => {
         try {
-          const user = new User(req.body);
-          await user.save();
-          res.status(201).send(user);
+            const { fullName, userName, email, birthdate, password, gender } = req.body;
+            const newUser = new User({
+                fullName,
+                userName,
+                email,
+                birthdate,
+                hashed_pwd: password,
+                gender
+            });
+            await newUser.save();
+            res.status(201).send({ message: 'User created successfully', user: newUser });
         } catch (error) {
-          res.status(400).send(error);
+            res.status(400).send({ message: 'Error creating user', error: error.message });
         }
-      });
-  };
-  
-  exports.getUser = async (req, res) => {
-    app.get('/api/users/:id', async (req, res) => {
+    },
+
+    getUser: async (req, res) => {
         try {
-          const user = await User.findById(req.params.id);
-          if (!user) {
-            return res.status(404).send();
-          }
-          res.send(user);
+            const user = await User.findById(req.params.userId);
+            if (!user) {
+                res.status(404).send({ message: 'User not found' });
+                return;
+            }
+            res.status(200).send(user);
         } catch (error) {
-          res.status(500).send(error);
+            res.status(500).send({ message: 'Error retrieving user', error: error.message });
         }
-      });
-  };
-  
-  exports.updateUser = async (req, res) => {
-    app.patch('/api/users/:id', async (req, res) => {
+    },
+
+    updateUser: async (req, res) => {
         try {
-          const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-          if (!user) {
-            return res.status(404).send();
-          }
-          res.send(user);
+            const { fullName, userName, email, birthdate, password, gender } = req.body;
+            const user = await User.findByIdAndUpdate(req.params.userId, {
+                fullName,
+                userName,
+                email,
+                birthdate,
+                hashed_pwd: password,
+                gender
+            }, { new: true });
+
+            if (!user) {
+                res.status(404).send({ message: 'User not found' });
+                return;
+            }
+            res.status(200).send({ message: 'User updated successfully', user });
         } catch (error) {
-          res.status(400).send(error);
+            res.status(400).send({ message: 'Error updating user', error: error.message });
         }
-      });
-  };
-  
-  exports.deleteUser = async (req, res) => {
-    app.delete('/api/users/:id', async (req, res) => {
+    },
+
+    deleteUser: async (req, res) => {
         try {
-          const user = await User.findByIdAndDelete(req.params.id);
-          if (!user) {
-            return res.status(404).send();
-          }
-          res.send(user);
+            const user = await User.findByIdAndDelete(req.params.userId);
+            if (!user) {
+                res.status(404).send({ message: 'User not found' });
+                return;
+            }
+            res.status(200).send({ message: 'User deleted successfully' });
         } catch (error) {
-          res.status(500).send(error);
+            res.status(500).send({ message: 'Error deleting user', error: error.message });
         }
-      });
-  };
-  
+    }
+};
+
+export default usersController;
