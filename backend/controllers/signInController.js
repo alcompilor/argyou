@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 export async function signIn(req, res) {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email }).exec();
+        const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(401).json({ message: 'Authentication failed. User not found.' });
@@ -17,7 +17,7 @@ export async function signIn(req, res) {
         }
 
         const token = jwt.sign(
-            { username: user._username, role: user.isAdmin ? true : false }, 
+            { username: user.username, role: user.isAdmin ? true : false }, 
             process.env.SECRET_KEY, 
             { expiresIn: '1h' }
         );
