@@ -17,7 +17,7 @@ export async function signIn(req, res) {
         }
 
         const token = jwt.sign(
-            { username: user.username, role: user.isAdmin ? true : false }, 
+            { username: user.username, isAdmin: user.isAdmin ? true : false }, 
             process.env.SECRET_KEY, 
             { expiresIn: '1h' }
         );
