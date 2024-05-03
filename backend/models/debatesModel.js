@@ -51,7 +51,7 @@ const debatesSchema = new Schema({
             content: {
                 type: String,
                 required: true,
-                minLength: 100,
+                minLength: 10,
                 maxLength: 500
             },
             username: {
@@ -93,7 +93,7 @@ const debatesSchema = new Schema({
             content: {
                 type: String,
                 required: true,
-                minLength: 10,
+                minLength: 5,
                 maxLength: 500
             },
             publishDate: {

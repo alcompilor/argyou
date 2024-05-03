@@ -4,9 +4,8 @@ import {
     createDebate, 
     updateDebate, 
     deleteDebate, 
-    addMessage, 
-    addComment 
-} from "../middlewares/debatesMiddleware.js";
+    addComment
+} from "../controllers/debatesController.js";
 import express from "express";
 
 const debatesRouter = express.Router();
@@ -19,10 +18,8 @@ debatesRouter.post('/', createDebate);
 
 debatesRouter.delete('/:id', deleteDebate);
 
-debatesRouter.put('/:id', updateDebate);
+debatesRouter.patch('/:id', updateDebate);
 
-debatesRouter.put('/addMessage/:id', addMessage);
-
-debatesRouter.put('/addComment/:id', addComment);
+debatesRouter.patch('/:id/comments', addComment);
 
 export default debatesRouter;

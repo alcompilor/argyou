@@ -60,46 +60,23 @@ export const deleteDebate = async (req, res) => {
 
 export const updateDebate = async (req, res) => {
     try {
-        const fields = req.body;
+        const { title, creatorUsername, startTime, thumbnail, questions, status, messages, comments } = req.body;
         const { id } = req.params;
-
-        const updateFields = {};
-        Object.entries(fields).forEach(([key, value]) => {
-            updateFields[key] = value;
-        });
 
         const debate = await Debate.findOneAndUpdate(
             { _id: id },
-            updateFields,
-            { new: true }
-        );
+            { title, 
+            creatorUsername, 
+            startTime, 
+            thumbnail, 
+            questions, 
+            status, 
+            messages, 
+            comments }, 
+            { new: true, runValidators: true });
 
         if (!debate) {
-            return res.status(404).json({ error: "Debate doesn't exist" });
-        }
-        res.status(200).json(debate);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-}
-
-export const addMessage = async (req, res) => {
-    try {
-        const { content, username } = req.body;
-        const { id } = req.params;
-        const debate = await Debate.findOneAndUpdate(
-            { _id: id }, 
-            { $push: { 
-                messages: { 
-                    content: content, 
-                    username: username 
-                } 
-            }},
-            { new: true }
-        );
-        
-        if (!debate) {
-            res.status(404).json({ error: "Debate doesn't exists" });
+            return res.status(404).json({ error: "Failed to update the debate" });
         }
         res.status(200).json(debate);
     } catch (error) {
@@ -109,18 +86,21 @@ export const addMessage = async (req, res) => {
 
 export const addComment = async (req, res) => {
     try {
-        const { username, content } = req.body;
+        const { content, username } = req.body;
         const { id } = req.params;
-        const debate = await Debate.findOneAndUpdate(
-            { _id: id }, 
-            { $push: { comments: { username: username, content: content } } },
-            { new: true }
-        );
+
+        let debate = await Debate.findById(id);
+        if (!debate) {
+            return res.status(404).json({ error: "Debate doesn't exist" });
+        }
+        
+        debate.comments.push({ content, username });
+        debate = await debate.save();
 
         if (!debate) {
-            res.status(404).json({ error: "Debate doesn't exists" });
+            return res.status(404).json({ error: "Failed to add chat message" });
         }
-        res.status(200).json(debate);
+        res.status(200).json({ message: "New chat message has been added" });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
