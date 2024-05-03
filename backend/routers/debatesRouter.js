@@ -1,3 +1,4 @@
+import express from "express";
 import { 
     getAllDebates, 
     getDebate, 
@@ -6,20 +7,19 @@ import {
     deleteDebate, 
     addComment
 } from "../controllers/debatesController.js";
-import express from "express";
 
 const debatesRouter = express.Router();
 
-debatesRouter.get('/', getAllDebates);
+debatesRouter.route('/')
+    .get(getAllDebates)
+    .post(createDebate);
 
-debatesRouter.get('/:id', getDebate);
+debatesRouter.route('/:id')
+    .get(getDebate)
+    .delete(deleteDebate)
+    .patch(updateDebate);
 
-debatesRouter.post('/', createDebate);
-
-debatesRouter.delete('/:id', deleteDebate);
-
-debatesRouter.patch('/:id', updateDebate);
-
-debatesRouter.patch('/:id/comments', addComment);
+debatesRouter.route('/:id/comments')
+    .patch(addComment);
 
 export default debatesRouter;

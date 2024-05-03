@@ -35,7 +35,7 @@ export const getDebate = async (req, res) => {
         const debate = await Debate.findById(id);
 
         if (!debate) {
-            res.status(404).json({error:"Debate doesn't exists"});
+            return res.status(404).json({error:"Debate doesn't exists"});
         }
         res.status(200).json(debate);
     } catch (error) {
