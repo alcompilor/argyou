@@ -22,7 +22,7 @@ server.use(helmet());
 // ex: server.use("/debates", debatesRouter);
 server.use("/api/v1/users", usersRouter);
 server.use("/api/v1/auth", authRouter);
-server.use("/api/v1/debates", debateRouter);
+server.use("/api/v1/debates", debatesRouter);
 
 server.listen(EXPRESS_PORT, (err) => {
     err
