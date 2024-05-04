@@ -15,10 +15,7 @@ const hasPermission = (collectionName, documentField) => async (req, res, next) 
         return res.status(403).send('Access denied. Username mismatch.');
       }
 
-      next();
-    } catch (error) {
-      return res.status(403).send(`Invalid token. ${error.message}`);
-    }
+      
   };
 };
 
