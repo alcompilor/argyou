@@ -1,5 +1,4 @@
-// hasPermission.js
-import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 const hasPermission = (requiredRole, matchUsernameParam) => {
   return async (req, res, next) => {
