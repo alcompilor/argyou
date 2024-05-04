@@ -8,10 +8,7 @@ const hasPermission = (collectionName, documentField) => async (req, res, next) 
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
       req.user = decoded;
 
-      // Check if the role matches
-      if (requiredRole && decoded.role !== requiredRole) {
-        return res.status(403).send('Access denied. Insufficient permissions.');
-      }
+
 
       // Check if the username needs to match the URL parameter
       if (matchUsernameParam && req.params[matchUsernameParam] !== decoded.username) {
