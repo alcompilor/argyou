@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 
-const hasPermission = (requiredRole, matchUsernameParam) => {
-  return async (req, res, next) => {
+const hasPermission = (collectionName, documentField) => async (req, res, next) => {
+  // Use decoded token from isAuth middleware
+  const decoded = req.decodedToken;
     
     try {
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
