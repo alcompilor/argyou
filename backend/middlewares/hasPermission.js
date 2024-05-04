@@ -15,9 +15,10 @@ const hasPermission = (collectionName, documentField) => async (req, res, next) 
     }
 
 
-    if (!decoded.isAdmin && document.owner !== decoded.username) {
-        return res.status(403).send('Access denied. Insufficient permissions.');
-    }
+    if (!decoded.isAdmin || document.owner !== decoded.username) {
+      return res.status(403).send('Access denied. Insufficient permissions.');
+  }
+  
 
 
     next();
