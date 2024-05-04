@@ -7,19 +7,21 @@ import {
     deleteDebate, 
     addComment
 } from "../controllers/debatesController.js";
+import hasPermission from "../middlewares/hasPermission.js";
+import isAuth from "../middlewares/isAuth.js";
 
 const debatesRouter = express.Router();
 
 debatesRouter.route('/')
-    .get(getAllDebates)
-    .post(createDebate);
+    .get(isAuth, getAllDebates)
+    .post(isAuth, createDebate);
 
 debatesRouter.route('/:id')
-    .get(getDebate)
-    .delete(deleteDebate)
-    .patch(updateDebate);
+    .get(isAuth, hasPermission, getDebate)
+    .delete(isAuth, hasPermission, deleteDebate)
+    .patch(isAuth, hasPermission, updateDebate);
 
 debatesRouter.route('/:id/comments')
-    .patch(addComment);
+    .patch(isAuth, addComment);
 
 export default debatesRouter;
