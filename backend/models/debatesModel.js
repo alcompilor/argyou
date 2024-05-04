@@ -36,6 +36,12 @@ const debatesSchema = new Schema({
     type: String,
     ref: "users",
   },
+  owner: {
+    type: String,
+    default: function () {
+      return this.creatorUsername;
+    },
+  },
   startTime: {
     type: String,
     required: [true, "Predefined start time is needed"],
