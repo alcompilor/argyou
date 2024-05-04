@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import { mountDB, unmountDB } from "./utils/dbConnection.js";
 import usersRouter from "./routers/usersRouter.js";
 import authRouter from "./routers/authRouter.js";
-import debateRouter from "./routers/debatesRouter.js";
+import debatesRouter from "./routers/debatesRouter.js";
 dotenv.config();
 
 const EXPRESS_PORT = 3000;
