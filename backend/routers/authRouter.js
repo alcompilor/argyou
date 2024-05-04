@@ -3,6 +3,6 @@ import { signIn } from '../controllers/signInController.js';
 
 const signInRouter = express.Router();
 
-router.post('/', signIn);
+signInRouter.post('/', signIn);
 
 export default signInRouter;
