@@ -6,6 +6,7 @@ import {
   updateDebate,
   deleteDebate,
   addComment,
+  addOpponent,
 } from "../controllers/debatesController.js";
 import hasPermission from "../middlewares/hasPermission.js";
 import isAuth from "../middlewares/isAuth.js";
@@ -23,5 +24,6 @@ debatesRouter
   .patch(isAuth, hasPermission(DEBATES_COLLECTION, FIELD_NAME), updateDebate);
 
 debatesRouter.route("/:_id/comments").patch(isAuth, addComment);
+debatesRouter.route("/:_id/opponent").patch(isAuth, addOpponent);
 
 export default debatesRouter;

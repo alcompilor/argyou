@@ -14,8 +14,10 @@ export const getAllDebates = async (req, res) => {
 
 export const createDebate = async (req, res) => {
   try {
-    const { title, creatorUsername, startTime, thumbnail, questions } =
-      req.body;
+    const { title, startTime, thumbnail, questions } = req.body;
+
+    const creatorUsername = req.decodedToken.username;
+
     const debate = await Debate.create({
       title,
       creatorUsername,
@@ -97,10 +99,33 @@ export const updateDebate = async (req, res) => {
   }
 };
 
+export const addOpponent = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const username = req.decodedToken.username;
+
+    let debate = await Debate.findById(_id);
+    if (!debate) {
+      return res.status(404).json({ error: "Debate doesn't exist" });
+    }
+
+    debate.opponentUsername = username;
+    debate = await debate.save();
+
+    res
+      .status(200)
+      .json({ message: "New opponent has successfully joined the debate" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 export const addComment = async (req, res) => {
   try {
-    const { content, username } = req.body;
+    const { content } = req.body;
     const { _id } = req.params;
+
+    const username = req.decodedToken.username;
 
     let debate = await Debate.findById(_id);
     if (!debate) {
@@ -110,10 +135,7 @@ export const addComment = async (req, res) => {
     debate.comments.push({ content, username });
     debate = await debate.save();
 
-    if (!debate) {
-      return res.status(404).json({ error: "Failed to add chat message" });
-    }
-    res.status(200).json({ message: "New chat message has been added" });
+    res.status(200).json({ message: "Comment successfully added" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
