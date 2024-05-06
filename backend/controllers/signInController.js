@@ -25,7 +25,7 @@ export async function signIn(req, res) {
         res.cookie('access_token', token, {
             httpOnly: true,
             sameSite: 'strict',  
-            secure: true
+            secure: true,
             maxAge: 3600000  // 1 hour
         });
 
