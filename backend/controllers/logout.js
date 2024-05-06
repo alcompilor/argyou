@@ -1,6 +1,10 @@
 const logout = (req, res) => {
     try {
-        res.clearCookie('access_token');
+        res.clearCookie('access_token', {
+            httpOnly: true,
+            sameSite: 'strict',
+            secure: true
+        });
 
         res.status(200).json({ message: 'Successfully logged out'});
     } catch (error) {
