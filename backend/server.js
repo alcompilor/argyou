@@ -6,6 +6,7 @@ import { mountDB, unmountDB } from "./utils/dbConnection.js";
 import usersRouter from "./routers/usersRouter.js";
 import authRouter from "./routers/authRouter.js";
 import debatesRouter from "./routers/debatesRouter.js";
+import logoutRouter from "./routers/logoutRouter.js"
 dotenv.config();
 
 const EXPRESS_PORT = 3000;
@@ -23,6 +24,7 @@ server.use(helmet());
 server.use("/api/v1/users", usersRouter);
 server.use("/api/v1/auth", authRouter);
 server.use("/api/v1/debates", debatesRouter);
+server.use("/api/v1/logout", logoutRouter);
 
 server.listen(EXPRESS_PORT, (err) => {
     err
