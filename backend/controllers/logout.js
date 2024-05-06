@@ -2,7 +2,7 @@ const logout = (req, res) => {
     try {
         res.clearCookie('access_token');
 
-        res.status(200).json({ message: 'Successfully logged out 👋 🍀' });
+        res.status(200).json({ message: 'Successfully logged out'});
     } catch (error) {
     
         console.error("Logout Error:", error);
