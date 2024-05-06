@@ -5,7 +5,7 @@ const { Schema, model } = mongoose;
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-const usernameRegex = /^[a-zA-Z0-9]+(?:[_-]?[a-zA-Z0-9]+)*$/;
+const usernameRegex =/^[a-zA-Z0-9]+(?:[_-]?[a-zA-Z0-9]+)*$/;
 
 const userSchema = new Schema({
     fullName: {
