@@ -4,7 +4,7 @@ import logout from '../controllers/logout.js';
 const logoutRouter = express.Router();
 
 
-logoutRouter.post('/', logout);
+logoutRouter.get('/', logout);
 
 
 export default logoutRouter;
