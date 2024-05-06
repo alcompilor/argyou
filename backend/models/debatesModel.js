@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { validateImage } from "../utils/validateImage.js";
 
 const Schema = mongoose.Schema;
 
@@ -13,13 +14,6 @@ function validateQuestions(questions) {
   return questions.length === 3;
 }
 
-// thumbnail of type buffer
-function validateThumbnail(thumbnail) {
-  if (!Buffer.isBuffer(thumbnail)) {
-    throw new Error("Thumbnail must be stored as a binary buffer");
-  }
-}
-
 const debatesSchema = new Schema({
   title: {
     type: String,
@@ -29,12 +23,17 @@ const debatesSchema = new Schema({
   },
   creatorUsername: {
     type: String,
-    required: [true, "Debate creator's id is required"],
     ref: "users",
   },
   opponentUsername: {
     type: String,
     ref: "users",
+    validate: {
+      validator: function(opponentUsername) {
+          return opponentUsername !== this.creatorUsername;
+      },
+      message: "You can't be a debate creator and an opponent at the same time"
+    },
   },
   owner: {
     type: String,
@@ -80,8 +79,10 @@ const debatesSchema = new Schema({
   },
   thumbnail: {
     type: Buffer,
-    required: [true, "A thumbnail is required"],
-    validate: [validateThumbnail, "A thumbnail required"],
+    validate: {
+      validator: thumbnail => validateImage(thumbnail, 2),
+      message: "Thumbnail must be a .PNG or .JPEG image, and less than 2MB in size"
+    }
   },
   questions: {
     type: Array,
@@ -117,21 +118,6 @@ const debatesSchema = new Schema({
       },
     ],
   },
-});
-
-// prevent user from entering own time
-debatesSchema.path("messages").set(function (messages) {
-  messages.forEach((message) => {
-    message.publishDate = this.isNew ? message.publishDate : Date.now();
-  });
-  return messages;
-});
-
-debatesSchema.path("comments").set(function (comments) {
-  comments.forEach((comment) => {
-    comment.publishDate = this.isNew ? comment.publishDate : Date.now();
-  });
-  return comments;
 });
 
 const Debate = mongoose.model("debates", debatesSchema);
