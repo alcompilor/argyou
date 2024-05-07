@@ -7,21 +7,21 @@ export const Navbar = ({ isLoggedIn }) => {
   const styleLink =
     "transition-colors duration-300 ease-in-out hover:bg-gray-700 rounded p-2";
   return (
-    <nav className="bg-red-500 max-h-[8vh] w-full mb-5">
+    <nav className="bg-red-500 h-[9vh] w-full mb-5">
       <div className="container mx-auto flex justify-between items-center px-4">
         <ul className="flex text-white font-bold mt-4 md:mt-0 text-sm">
           <Logo
             width={140}
             height={50}
-            style={"py-3 px-4"}
+            style={"py-4 px-4"}
             logoType={"white"}
           />
-          <li className="py-4 px-4">
+          <li className="py-5 px-4">
             <NavLink to="/" className={styleLink}>
               Home
             </NavLink>
           </li>
-          <li className="py-4 px-4">
+          <li className="py-5 px-4">
             <NavLink to="/about-us" className={styleLink}>
               About Us
             </NavLink>
