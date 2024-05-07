@@ -26,7 +26,13 @@ export async function signIn(req, res) {
             httpOnly: true,
             sameSite: 'strict',  
             secure: true,
-            maxAge: 3600000  // 1 hour
+            maxAge: 6 * 60 * 60 * 1000 // 6 hours
+        });
+
+        res.cookie('auth', "true", {
+            sameSite: 'strict',
+            secure: true,
+            maxAge: 6 * 60 * 60 * 1000,
         });
 
         res.status(200).json({ message: 'Logged in successfully' });
