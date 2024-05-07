@@ -1,42 +1,43 @@
-import "../../assets/styles/navbar.css";
+import "../../App.css";
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo.jsx";
 import { IconBell, IconSearch } from "@tabler/icons-react";
+import { useAuthState } from "@/hooks/useAuthState";
 
-export const Navbar = ({ isLoggedIn }) => {
+export const Navbar = () => {
   const styleLink =
-    "transition-colors duration-300 ease-in-out hover:bg-gray-700 rounded p-2";
+    "transition-colors duration-300 ease-in-out hover:bg-gray-500 rounded-lg p-2";
   return (
-    <nav className="bg-red-500 h-[9vh] w-full mb-5">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        <ul className="flex text-white font-bold mt-4 md:mt-0 text-sm">
+    <nav className="bg-red-500 min-h-[9vh] w-full mb-5">
+      <div className="container mx-auto md:flex justify-between items-center px-4">
+        <ul className="md:flex text-white font-bold mt-4 md:mt-0 text-sm">
           <Logo
-            width={140}
+            width={150}
             height={50}
-            style={"py-4 px-4"}
+            style={"py-4 px-5"}
             logoType={"white"}
           />
-          <li className="py-5 px-4">
+          <li className="py-6 px-4">
             <NavLink to="/" className={styleLink}>
               Home
             </NavLink>
           </li>
-          <li className="py-5 px-4">
+          <li className="py-6 px-4">
             <NavLink to="/about-us" className={styleLink}>
               About Us
             </NavLink>
           </li>
         </ul>
-        <div className="relative">
+        <div className="relative flex items-center">
           <input
             type="text"
             placeholder="Search..."
-            className="rounded-lg px-8 py-1 pr-10 focus:outline-gray-800 text-gray-800"
+            className="rounded-lg py-1 pr-12 focus:outline-gray-800 text-gray-800 w-full"
           />
-          <IconSearch className="absolute top-1/2 transform -translate-y-1/2 right-3 text-gray-500" />
+          <IconSearch className="absolute right-3 text-gray-500 h-6 w-6" />
         </div>
-        <ul className="flex gap-2 text-white font-bold mt-4 md:mt-0 text-sm">
-          {isLoggedIn ? (
+        <ul className="md:flex gap-2 text-white font-bold mt-4 md:mt-0 text-sm">
+          {useAuthState() ? (
             <>
               <li className="py-3.5 px-4">
                 <NavLink to="/debate-space" className={styleLink}>

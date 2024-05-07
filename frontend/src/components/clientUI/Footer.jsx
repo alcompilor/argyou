@@ -1,4 +1,4 @@
-import "../../assets/styles/footer.css";
+import "../../App.css";
 import { Logo } from "../../components/clientUI/Logo.jsx";
 import {
   IconBrandInstagram,
@@ -7,12 +7,12 @@ import {
 } from "@tabler/icons-react";
 
 const infoStyle =
-  "list-none flex flex-col justify-start items-start mt-11 space-y-3";
+  "list-none md:flex md:flex-col justify-start items-start md:mt-11 space-y-3";
 
 export const Footer = () => (
   <section className="bg-gray-800 container mx-auto mt-5 py-14 px-8 text-gray-100 font-semibold">
-    <section className="flex">
-      <section className="flex flex-col">
+    <section className="md:flex">
+      <section className="md:flex md:flex-col">
         <Logo width={200} height={120} logoType={"white"} />
         <section className="mt-4">
           <p>
@@ -23,7 +23,7 @@ export const Footer = () => (
           <p>Users can create and participate in debates, present arguments,</p>
           <p>and engage with diverse perspectives.</p>
         </section>
-        <section className="py-3 flex gap-4">
+        <section className="py-3 md:flex gap-4">
           <a href="#">
             <IconBrandFacebook size={30} />
           </a>
