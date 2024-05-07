@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { mountDB, unmountDB } from "./utils/dbConnection.js";
 import usersRouter from "./routers/usersRouter.js";
 import authRouter from "./routers/authRouter.js";
@@ -18,6 +19,9 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(cookieParser());
 server.use(helmet());
+server.use(cors({
+  origin: "*",
+}));
 
 // Here should routers be used:
 // ex: server.use("/debates", debatesRouter);
