@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/><.,])(?!.*\s).{10,}$/;
-const usernameRegex = /^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/;
+const usernameRegex = /^[a-zA-Z0-9]+(?:[_-]?[a-zA-Z0-9]+)*$/;
 
 const validateAvatar = (avatar, sizeInMB) => {
     if (!avatar || avatar.length === 0) {
