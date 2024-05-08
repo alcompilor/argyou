@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, getUser, updateUser, deleteUser } from '../controllers/usersController.js';
+import { createUser, getUser, updateUser, deleteUser, pushNotification } from '../controllers/usersController.js';
 import isAuth from "../middlewares/isAuth.js";
 import hasPermission from "../middlewares/hasPermission.js";
 
@@ -14,5 +14,6 @@ usersRouter.route("/:username")
     .delete(isAuth, hasPermission(USERS_COLLECTION, FIELD_NAME), deleteUser);
 
 usersRouter.post('/', createUser);
+usersRouter.route('/notifications').post(pushNotification);
 
 export default usersRouter;
