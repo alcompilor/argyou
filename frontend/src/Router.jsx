@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./Layout";
 import { Error404 } from "./pages/Error404";
+import {Signup} from "./components/signup";
 
 // You can add new routes in the children array to render pages.
 // This github module has an example of how to do so:

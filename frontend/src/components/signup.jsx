@@ -1,32 +1,60 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import './signup.css';
 
-function SignupPage (){
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: ''
-    });
-    const handleChange = (event)=>{
-        const {name , value} = event.target;
-        setFormData(prevState => ({
-            ...prevstate,
-            [name]: value 
-        }));
-    };
+const SignupPage = () => {
+    const [action, setAction] = useState("Sign Up");
+
+    // State to store user inputs
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    // Function to handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        //hanle form submission logic: sending the data to db
-        console.log('Form submitted:', formData);
-        alert('Signup successful!');
+        console.log('Username:', username);
+        console.log('Email:', email);
+        console.log('Password:', password);
+        // Continue later with sending data to the backend server
     };
 
-    return(
-        <form onSubmit={handleSubmit}>
-            <h1>Signup</h1>
-           
-        </form>
-    )
-
-}
+    return (
+        <div className='container'>
+            <div className='header'>
+                <div className="text">{action}</div>
+                <div className='underline'></div>
+            </div>
+            <form className="inputs" onSubmit={handleSubmit}>
+                <div className="input">
+                    <input
+                        type="text"
+                        placeholder='Username'
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <div className="input">
+                    <input
+                        type="email"
+                        placeholder='Email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+                <div className="input">
+                    <input
+                        type="password"
+                        placeholder='Password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div className="submit-container">
+                    <button type='submit' className='submit'>Sign Up</button>
+                </div>
+            </form>
+        </div>
+    );
+};
 
 export default SignupPage;
