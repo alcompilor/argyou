@@ -9,7 +9,7 @@ export const MenuNavbar = ({ isLoggedIn }) => {
     <section className="absolute bg-white rounded">
       <ul>
         <li className={listStyle}>
-          <NavLink to="/home" className={linkStyle}>
+          <NavLink to="/" className={linkStyle}>
             Home
           </NavLink>
         </li>
