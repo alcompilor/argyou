@@ -4,9 +4,9 @@ import { IconBell, IconSearch } from "@tabler/icons-react";
 
 export const Navbar = ({ isLoggedIn }) => {
   const styleLink =
-    "transition-colors duration-300 ease-in-out hover:bg-gray-500 rounded-lg p-2";
+    "transition-colors duration-300 ease-in-out hover:bg-gray-700 rounded-lg p-2";
   return (
-    <nav className="bg-red-500 min-h-[9vh] w-full mb-5">
+    <nav className="bg-rose-500 min-h-[9vh] w-full mb-5">
       <div className="container mx-auto md:flex justify-between items-center px-4">
         <ul className="md:flex text-white font-bold mt-4 md:mt-0 text-sm">
           <Logo
@@ -48,7 +48,7 @@ export const Navbar = ({ isLoggedIn }) => {
                 </NavLink>
               </li>
               <li className="relative py-3.5 px-4">
-                <IconBell className="absolut text-white-500 fill-current hover:fill-red-500" />
+                <IconBell className="absolut text-white-500 fill-current hover:fill-rose-500" />
               </li>
               <li className="py-3.5 px-4">
                 <NavLink to="/logout" className={styleLink}>

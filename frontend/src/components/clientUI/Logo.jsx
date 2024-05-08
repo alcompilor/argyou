@@ -1,6 +1,6 @@
 import whiteLogo from "../../assets/imgs/default-monochrome-white.svg";
-import blackLogo from "../../assets/imgs/default-monochrome-white.svg";
-import logo from "../../assets/imgs/default-monochrome-white.svg";
+import blackLogo from "../../assets/imgs/default-monochrome-black.svg";
+import logo from "../../assets/imgs/default-monochrome.svg";
 
 function selectLogo(logoType) {
   if (logoType === "black") {
