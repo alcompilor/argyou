@@ -1,4 +1,3 @@
-import "../../App.css";
 import { Logo } from "../../components/clientUI/Logo.jsx";
 import {
   IconBrandInstagram,

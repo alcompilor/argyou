@@ -9,16 +9,16 @@ const isPhone = () => {
 };
 
 export const Layout = () => {
-  const isLoggedIn = true;
+  const authState = true;
   return (
     <>
       <header>
         {isPhone() ? (
           <details>
-            <Navbar isLoggedIn={isLoggedIn} />
+            <Navbar isLoggedIn={authState} />
           </details>
         ) : (
-          <Navbar isLoggedIn={isLoggedIn} />
+          <Navbar isLoggedIn={authState} />
         )}
       </header>
       <main>

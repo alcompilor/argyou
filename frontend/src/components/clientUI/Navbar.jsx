@@ -1,10 +1,8 @@
-import "../../App.css";
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo.jsx";
 import { IconBell, IconSearch } from "@tabler/icons-react";
-import { useAuthState } from "@/hooks/useAuthState";
 
-export const Navbar = () => {
+export const Navbar = ({ isLoggedIn }) => {
   const styleLink =
     "transition-colors duration-300 ease-in-out hover:bg-gray-500 rounded-lg p-2";
   return (
@@ -14,7 +12,7 @@ export const Navbar = () => {
           <Logo
             width={150}
             height={50}
-            style={"py-4 px-5"}
+            className={"py-4 px-5"}
             logoType={"white"}
           />
           <li className="py-6 px-4">
@@ -37,7 +35,7 @@ export const Navbar = () => {
           <IconSearch className="absolute right-3 text-gray-500 h-6 w-6" />
         </div>
         <ul className="md:flex gap-2 text-white font-bold mt-4 md:mt-0 text-sm">
-          {useAuthState() ? (
+          {isLoggedIn ? (
             <>
               <li className="py-3.5 px-4">
                 <NavLink to="/debate-space" className={styleLink}>

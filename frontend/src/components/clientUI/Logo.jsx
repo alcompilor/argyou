@@ -2,22 +2,22 @@ import whiteLogo from "../../assets/imgs/default-monochrome-white.svg";
 import blackLogo from "../../assets/imgs/default-monochrome-white.svg";
 import logo from "../../assets/imgs/default-monochrome-white.svg";
 
-function whichLogo(logoType) {
+function selectLogo(logoType) {
   if (logoType === "black") {
     return blackLogo;
   } else if (logoType === "white") {
     return whiteLogo;
-  } else if (logoType === "normal") {
+  } else if (logoType === "colored") {
     return logo;
   }
 }
 
-export const Logo = ({ width, height, style, logoType }) => (
+export const Logo = ({ width, height, className, logoType }) => (
   <img
-    src={whichLogo(logoType)}
+    src={selectLogo(logoType)}
     alt="ArgYou Logo"
     width={width}
     height={height}
-    className={style}
+    className={className}
   />
 );
