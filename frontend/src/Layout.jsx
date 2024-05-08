@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./components/clientUI/Navbar.jsx";
 import { Footer } from "./components/clientUI/Footer.jsx";
+import { useAuthState } from "@/hooks/useAuthState";
 
 const isPhone = () => {
   const phonePattern =
@@ -9,7 +10,7 @@ const isPhone = () => {
 };
 
 export const Layout = () => {
-  const authState = true;
+  const authState = useAuthState();
   return (
     <>
       <header>
