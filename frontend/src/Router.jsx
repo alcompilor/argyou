@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { AboutHero } from "./components/AboutHero";
 import { Layout } from "./Layout";
 import { Error404 } from "./pages/Error404";
 
@@ -10,10 +11,17 @@ import { Error404 } from "./pages/Error404";
 // https://reactrouter.com/en/main/start/tutorial
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Layout />,
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <Error404 />,
+    children: [
+      {
+        path: "/about-us",
+        element: <AboutHero />,
         errorElement: <Error404 />,
         children: [],
-    },
+      },
+    ],
+  },
 ]);
