@@ -6,7 +6,7 @@ export const Navbar = ({ isLoggedIn }) => {
   const styleLink =
     "transition-colors duration-300 ease-in-out hover:bg-gray-700 rounded-lg p-2";
   return (
-    <nav className="bg-rose-500 min-h-[9vh] w-full mb-5">
+    <nav className="bg-rose-500 min-h-[9vh] w-full">
       <div className="container mx-auto md:flex justify-between items-center px-4">
         <ul className="md:flex text-white font-bold mt-4 md:mt-0 text-sm">
           <Logo
