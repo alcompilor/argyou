@@ -77,7 +77,8 @@ const debatesSchema = new Schema({
     ],
   },
   thumbnail: {
-    type: Buffer,
+    buffer: Buffer,
+    mime: String,
   },
   questions: {
     type: Array,
