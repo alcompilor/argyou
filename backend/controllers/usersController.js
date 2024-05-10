@@ -11,6 +11,11 @@ export const createUser = async (req, res) => {
       password,
       gender,
     });
+
+    if (req.file && req.file.buffer) {
+      newUser.avatar = req.file.buffer;
+    }
+
     await newUser.save();
 
     res
@@ -52,6 +57,7 @@ export const updateUser = async (req, res) => {
         birthDate,
         password,
         gender,
+        avatar: req.file.buffer
       },
       { new: true, runValidators: true }
     );

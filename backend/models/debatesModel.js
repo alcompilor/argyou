@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { validateImage } from "../utils/validateImage.js";
 
 const Schema = mongoose.Schema;
 
@@ -79,10 +78,6 @@ const debatesSchema = new Schema({
   },
   thumbnail: {
     type: Buffer,
-    validate: {
-      validator: thumbnail => validateImage(thumbnail, 2),
-      message: "Thumbnail must be a .PNG or .JPEG image, and less than 2MB in size"
-    }
   },
   questions: {
     type: Array,
