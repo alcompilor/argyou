@@ -5,8 +5,8 @@ import bcrypt from 'bcrypt';
 export async function signIn(req, res) {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
-
+        const user = await User.findOne({ email }).select("password username isAdmin");
+        
         if (!user) {
             return res.status(401).json({ message: 'Authentication failed. User not found.' });
         }
@@ -29,7 +29,7 @@ export async function signIn(req, res) {
             maxAge: 6 * 60 * 60 * 1000 // 6 hours
         });
 
-        res.cookie('auth', "true", {
+        res.cookie('auth', user.username, {
             sameSite: 'strict',
             secure: true,
             maxAge: 6 * 60 * 60 * 1000,
