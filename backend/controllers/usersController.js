@@ -60,7 +60,10 @@ export const updateUser = async (req, res) => {
         birthDate,
         password,
         gender,
-        avatar: req.file.buffer
+        avatar: {
+          buffer: req.file.buffer,
+          mime: req.file.mimetype,
+        }
       },
       { new: true, runValidators: true }
     );
