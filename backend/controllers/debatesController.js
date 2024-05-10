@@ -14,19 +14,23 @@ export const getAllDebates = async (req, res) => {
 
 export const createDebate = async (req, res) => {
   try {
-    const { title, startTime, thumbnail, questions } = req.body;
-
+    const { title, startTime, questions } = req.body;
     const creatorUsername = req.decodedToken.username;
 
-    const debate = await Debate.create({
+    const newDebate = new Debate({
       title,
       creatorUsername,
       startTime,
-      thumbnail,
       questions,
     });
 
-    res.status(200).json(debate);
+    if (req.file && req.file.buffer) {
+      newDebate.thumbnail = req.file.buffer;
+    }
+
+    await newDebate.save();
+
+    res.status(200).json(newDebate);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -67,7 +71,6 @@ export const updateDebate = async (req, res) => {
       title,
       creatorUsername,
       startTime,
-      thumbnail,
       questions,
       status,
       messages,
@@ -81,7 +84,7 @@ export const updateDebate = async (req, res) => {
         title,
         creatorUsername,
         startTime,
-        thumbnail,
+        thumbnail: req.file.buffer,
         questions,
         status,
         messages,

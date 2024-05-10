@@ -10,18 +10,25 @@ import {
 } from "../controllers/debatesController.js";
 import hasPermission from "../middlewares/hasPermission.js";
 import isAuth from "../middlewares/isAuth.js";
+import multer from "multer";
+import { validateImage } from "../middlewares/validateImage.js";
 
 const debatesRouter = express.Router();
+const upload = multer();
+
 const DEBATES_COLLECTION = "debates";
 const FIELD_NAME = "_id";
 
-debatesRouter.route("/").get(isAuth, getAllDebates).post(isAuth, createDebate);
+const IMAGE_NAME = "thumbnail";
+const IMAGE_SIZE = 2;
+
+debatesRouter.route("/").get(isAuth, getAllDebates).post(isAuth, upload.single(IMAGE_NAME), validateImage(IMAGE_SIZE), createDebate);
 
 debatesRouter
   .route("/:_id")
   .get(isAuth, hasPermission(DEBATES_COLLECTION, FIELD_NAME), getDebate)
   .delete(isAuth, hasPermission(DEBATES_COLLECTION, FIELD_NAME), deleteDebate)
-  .patch(isAuth, hasPermission(DEBATES_COLLECTION, FIELD_NAME), updateDebate);
+  .patch(isAuth, hasPermission(DEBATES_COLLECTION, FIELD_NAME), upload.single(IMAGE_NAME), validateImage(IMAGE_SIZE), updateDebate);
 
 debatesRouter.route("/:_id/comments").patch(isAuth, addComment);
 debatesRouter.route("/:_id/opponent").patch(isAuth, addOpponent);

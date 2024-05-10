@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { validateImage } from "../utils/validateImage.js";
 
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -46,11 +45,6 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: Buffer,
-      validate: {
-        validator: (avatar) => validateImage(avatar, 2),
-        message:
-          "Avatar must be a .PNG or .JPEG image, and less than 2MB in size",
-      },
     },
     debates: [
       {
