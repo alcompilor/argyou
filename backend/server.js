@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { mountDB, unmountDB } from "./utils/dbConnection.js";
 import usersRouter from "./routers/usersRouter.js";
-import authRouter from "./routers/authRouter.js";
+import signInRouter from "./routers/signInRouter.js";
 import debatesRouter from "./routers/debatesRouter.js";
 import logoutRouter from "./routers/logoutRouter.js"
 dotenv.config();
@@ -26,7 +26,7 @@ server.use(cors({
 // Here should routers be used:
 // ex: server.use("/debates", debatesRouter);
 server.use("/api/v1/users", usersRouter);
-server.use("/api/v1/auth", authRouter);
+server.use("/api/v1/auth", signInRouter);
 server.use("/api/v1/debates", debatesRouter);
 server.use("/api/v1/logout", logoutRouter);
 
