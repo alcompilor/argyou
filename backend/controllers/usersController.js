@@ -1,6 +1,8 @@
+import ErrorResponse from "../classes/ErrorResponse.js";
+import ResponseData from "../classes/ResponseData.js";
 import User from "../models/usersModel.js";
 
-export const createUser = async (req, res) => {
+export const createUser = async (req, res, next) => {
   try {
     const { fullName, username, email, birthDate, password, gender } = req.body;
     const newUser = new User({
@@ -23,15 +25,13 @@ export const createUser = async (req, res) => {
 
     res
       .status(201)
-      .send({ message: "User created successfully", user: newUser });
+      .json(new ResponseData("User created", 201, newUser));
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error creating user", error: error.message });
+    next(new ErrorResponse(error.message, 400));
   }
 };
 
-export const getUser = async (req, res) => {
+export const getUser = async (req, res, next) => {
   try {
     const { username } = req.params;
     let user;
@@ -43,18 +43,16 @@ export const getUser = async (req, res) => {
     }
     
     if (!user) {
-      return res.status(404).send({ message: "User not found" });
+      return res.status(404).json(new ResponseData("User not found", 404));
     }
   
-    res.status(200).send(user);
+    res.status(200).json(new ResponseData("User fetched", 200, user));
   } catch (error) {
-    res
-      .status(500)
-      .send({ message: "Error retrieving user", error: error.message });
+    next(new ErrorResponse(error.message, 400));
   }
 };
 
-export const updateUser = async (req, res) => {
+export const updateUser = async (req, res, next) => {
   try {
     const { fullName, username, email, birthDate, password, gender } = req.body;
 
@@ -76,33 +74,29 @@ export const updateUser = async (req, res) => {
     );
 
     if (!user) {
-      return res.status(404).send({ message: "User not found" });
+      return res.status(404).json(new ResponseData("User not found", 404));
     }
-    res.status(200).send({ message: "User updated successfully", user });
+    res.status(200).json(new ResponseData("User updated", 200, user));
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error updating user", error: error.message });
+    next(new ErrorResponse(error.message, 400));
   }
 };
 
-export const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res, next) => {
   try {
     const { username } = req.params;
     const user = await User.findOneAndDelete({ username });
 
     if (!user) {
-      return res.status(404).send({ message: "User not found" });
+      return res.status(404).json(new ResponseData("User not found", 404));
     }
-    res.status(200).send({ message: "User deleted successfully" });
+    res.status(200).json(new ResponseData("User deleted", 200));
   } catch (error) {
-    res
-      .status(500)
-      .send({ message: "Error deleting user", error: error.message });
+    next(new ErrorResponse(error.message, 400));
   }
 };
 
-export const pushNotification = async (req, res) => {
+export const pushNotification = async (req, res, next) => {
   try {
     const { title } = req.body;
     const username = req.decodedToken.username;
@@ -112,8 +106,8 @@ export const pushNotification = async (req, res) => {
     user.notifications.push({ title });
     user = await user.save();
 
-    res.status(200).json({ message: "A notification successfully pushed" });
+    res.status(200).json(new ResponseData("Notification pushed", 200, title));
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(new ErrorResponse(error.message, 400));
   }
 };
