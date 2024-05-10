@@ -25,7 +25,10 @@ export const createDebate = async (req, res) => {
     });
 
     if (req.file && req.file.buffer) {
-      newDebate.thumbnail = req.file.buffer;
+      newDebate.thumbnail = {
+        buffer: req.file.buffer,
+        mime: req.file.mimetype,
+      };
     }
 
     await newDebate.save();

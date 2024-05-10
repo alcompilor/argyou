@@ -13,7 +13,10 @@ export const createUser = async (req, res) => {
     });
 
     if (req.file && req.file.buffer) {
-      newUser.avatar = req.file.buffer;
+      newUser.avatar = {
+        buffer: req.file.buffer,
+        mime: req.file.mimetype,
+      };
     }
 
     await newUser.save();
