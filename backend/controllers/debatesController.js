@@ -87,7 +87,10 @@ export const updateDebate = async (req, res) => {
         title,
         creatorUsername,
         startTime,
-        thumbnail: req.file.buffer,
+        thumbnail: {
+          buffer: req.file.buffer,
+          mime: req.file.mimetype,
+        },
         questions,
         status,
         messages,
