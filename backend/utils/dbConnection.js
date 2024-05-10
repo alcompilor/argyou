@@ -17,10 +17,12 @@ export const unmountDB = async () => {
     try {
         if (mongoose.connection.readyState === 1) {
             await mongoose.connection.close();
-            
+
             console.log("MongoDB connection closed successfully");
         } else {
-            console.warn("MongoDB connection already closed or not established");
+            console.warn(
+                "MongoDB connection already closed or not established",
+            );
         }
     } catch (error) {
         console.error("Error closing MongoDB connection:", error);
