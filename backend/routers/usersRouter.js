@@ -15,7 +15,7 @@ const IMAGE_NAME = "avatar";
 const IMAGE_SIZE = 2;
 
 usersRouter.route("/:username")
-    .get(isAuth, hasPermission(USERS_COLLECTION, FIELD_NAME), getUser)
+    .get(isAuth, getUser)
     .patch(isAuth, hasPermission(USERS_COLLECTION, FIELD_NAME), upload.single(IMAGE_NAME), validateImage(IMAGE_SIZE), updateUser)
     .delete(isAuth, hasPermission(USERS_COLLECTION, FIELD_NAME), deleteUser);
 

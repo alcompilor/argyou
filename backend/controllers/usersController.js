@@ -34,11 +34,18 @@ export const createUser = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     const { username } = req.params;
-    const user = await User.findOne({ username });
+    let user;
 
+    if (req.decodedToken.username === username) {
+        user = await User.findOne({ username }).select("-password");
+    } else {
+        user = await User.findOne({ username }).select("-password -email -isAdmin -notifications -owner");
+    }
+    
     if (!user) {
       return res.status(404).send({ message: "User not found" });
     }
+  
     res.status(200).send(user);
   } catch (error) {
     res
