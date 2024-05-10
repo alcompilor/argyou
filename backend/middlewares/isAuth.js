@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import ResponseData from "../classes/ResponseData.js";
+import ErrorResponse from "../classes/ErrorResponse.js";
 
 const isAuth = (req, res, next) => {
   const token = req.cookies.access_token;
@@ -11,16 +13,16 @@ const isAuth = (req, res, next) => {
             secure: true,
         });
     };
-    return res.status(403).send("No token found");
+    return res.status(403).json(new ResponseData("No token provided", 403));
   }
 
   try {
     const validToken = jwt.verify(token, process.env.SECRET_KEY);
     req.decodedToken = validToken;
     
-    return next();
+    next();
   } catch (error) {
-    return res.status(403).send(`Error occured: ${error}`);
+    next(new ErrorResponse(error.message, 500));
   }
 };
 

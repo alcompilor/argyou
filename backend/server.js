@@ -8,6 +8,7 @@ import usersRouter from "./routers/usersRouter.js";
 import signInRouter from "./routers/signInRouter.js";
 import debatesRouter from "./routers/debatesRouter.js";
 import logoutRouter from "./routers/logoutRouter.js"
+import { errorHandler } from "./middlewares/errorHandler.js";
 dotenv.config();
 
 const EXPRESS_PORT = 3000;
@@ -29,6 +30,8 @@ server.use("/api/v1/users", usersRouter);
 server.use("/api/v1/auth", signInRouter);
 server.use("/api/v1/debates", debatesRouter);
 server.use("/api/v1/logout", logoutRouter);
+
+server.use(errorHandler);
 
 server.listen(EXPRESS_PORT, (err) => {
     err

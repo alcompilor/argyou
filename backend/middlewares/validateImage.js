@@ -1,3 +1,6 @@
+import ErrorResponse from "../classes/ErrorResponse.js";
+import ResponseData from "../classes/ResponseData.js";
+
 export const validateImage = (size) => (req, res, next) => {
     try {
         if (!req.file) {
@@ -11,8 +14,8 @@ export const validateImage = (size) => (req, res, next) => {
             return next();
         }
 
-        res.status(400).send(`Avatar must be a .PNG or .JPEG image, and less than ${size}MB in size`);
-    } catch {
-        res.status(500).send('An error occurred while processing the file');
+        res.status(400).json(new ResponseData(`Avatar must be a .PNG or .JPEG image, and less than ${size}MB in size`, 400));
+    } catch (error) {
+        next(new ErrorResponse(error.message, 500));
     }
 };

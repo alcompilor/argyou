@@ -1,4 +1,7 @@
-const logout = (req, res) => {
+import ErrorResponse from "../classes/ErrorResponse.js";
+import ResponseData from "../classes/ResponseData.js";
+
+const logout = (_, res, next) => {
     try {
         res.clearCookie('access_token', {
             httpOnly: true,
@@ -11,10 +14,9 @@ const logout = (req, res) => {
             secure: true,
         });
 
-        res.status(200).json({ message: 'Successfully logged out'});
+        res.status(200).json(new ResponseData("Logged out successfully", 200));
     } catch (error) {
-       
-        res.status(500).json({ message: 'Failed to log out. Please try again later.' });
+        next(new ErrorResponse(error.message, 500));
     }
 };
 
