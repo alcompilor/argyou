@@ -7,7 +7,7 @@ import { mountDB, unmountDB } from "./utils/dbConnection.js";
 import usersRouter from "./routers/usersRouter.js";
 import signInRouter from "./routers/signInRouter.js";
 import debatesRouter from "./routers/debatesRouter.js";
-import logoutRouter from "./routers/logoutRouter.js"
+import logoutRouter from "./routers/logoutRouter.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 dotenv.config();
 
@@ -20,9 +20,11 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(cookieParser());
 server.use(helmet());
-server.use(cors({
-  origin: "*",
-}));
+server.use(
+    cors({
+        origin: "*",
+    }),
+);
 
 // Here should routers be used:
 // ex: server.use("/debates", debatesRouter);
@@ -39,7 +41,7 @@ server.listen(EXPRESS_PORT, (err) => {
         : console.log(`Server running at port ${EXPRESS_PORT}..`);
 });
 
-process.on('SIGINT', async () => {
+process.on("SIGINT", async () => {
     await unmountDB();
     process.exit(0);
 });

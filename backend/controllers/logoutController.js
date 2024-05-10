@@ -3,14 +3,14 @@ import ResponseData from "../classes/ResponseData.js";
 
 const logout = (_, res, next) => {
     try {
-        res.clearCookie('access_token', {
+        res.clearCookie("access_token", {
             httpOnly: true,
-            sameSite: 'strict',
-            secure: true
+            sameSite: "strict",
+            secure: true,
         });
 
-        res.clearCookie('auth', {
-            sameSite: 'strict',
+        res.clearCookie("auth", {
+            sameSite: "strict",
             secure: true,
         });
 
@@ -20,4 +20,4 @@ const logout = (_, res, next) => {
     }
 };
 
-export default logout;  
+export default logout;
