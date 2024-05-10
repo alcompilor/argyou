@@ -28,7 +28,7 @@ export const createDebate = async (req, res, next) => {
       questions,
     });
 
-    if (req.file && req.file.buffer) {
+    if (req.file) {
       newDebate.thumbnail = {
         buffer: req.file.buffer,
         mime: req.file.mimetype,
@@ -92,16 +92,21 @@ export const updateDebate = async (req, res, next) => {
         title,
         creatorUsername,
         startTime,
-        thumbnail: {
-          buffer: req.file.buffer,
-          mime: req.file.mimetype,
-        },
+        thumbnail: req.file 
+          ? {
+              buffer: req.file.buffer,
+              mime: req.file.mimetype,
+            } 
+          : undefined,
         questions,
         status,
         messages,
         comments,
       },
-      { new: true, runValidators: true }
+      { 
+        new: true, 
+        runValidators: true 
+      }
     );
 
     if (!debate) {
