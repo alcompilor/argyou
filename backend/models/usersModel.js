@@ -40,7 +40,8 @@ const userSchema = new mongoose.Schema(
       match: [passwordRegex, "Password is not strong enough"],
     },
     gender: {
-      type: Boolean,
+      type: String,
+      enum: ["male", "female"],
       required: true,
     },
     avatar: {
