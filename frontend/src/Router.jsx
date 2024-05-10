@@ -15,6 +15,15 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Layout />,
         errorElement: <Error404 />,
-        children: [],
+        children: [
+            {
+                index: true,
+                element: <Signup/>
+            },
+            {
+                path: "signup",
+                element:<Signup/>
+            }
+        ],
     },
 ]);
