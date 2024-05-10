@@ -14,7 +14,7 @@ export const createUser = async (req, res, next) => {
       gender,
     });
 
-    if (req.file && req.file.buffer) {
+    if (req.file) {
       newUser.avatar = {
         buffer: req.file.buffer,
         mime: req.file.mimetype,
@@ -65,12 +65,17 @@ export const updateUser = async (req, res, next) => {
         birthDate,
         password,
         gender,
-        avatar: {
-          buffer: req.file.buffer,
-          mime: req.file.mimetype,
-        }
+        avatar: req.file 
+          ? {
+              buffer: req.file.buffer,
+              mime: req.file.mimetype,
+            } 
+          : undefined,
       },
-      { new: true, runValidators: true }
+      { 
+        new: true, 
+        runValidators: true 
+      }
     );
 
     if (!user) {
