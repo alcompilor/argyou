@@ -109,6 +109,25 @@ export const deleteUser = async (req, res, next) => {
     }
 };
 
+export const getUserDebates = async (req, res, next) => {
+    try {
+        const { username } = req.params;
+        const { debates } = await User.findOne({ username }).select("debates");
+
+        if (!debates.length) {
+            return res
+                .status(404)
+                .json(new ResponseData("No debates were found", 404));
+        }
+
+        res.status(200).json(
+            new ResponseData("User Debates fetched", 200, debates),
+        );
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400));
+    }
+};
+
 export const pushNotification = async (req, res, next) => {
     try {
         const { title } = req.body;
