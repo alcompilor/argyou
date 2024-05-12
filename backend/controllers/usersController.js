@@ -112,8 +112,8 @@ export const deleteUser = async (req, res, next) => {
 export const getUserDebates = async (req, res, next) => {
     try {
         const { username } = req.params;
-        const { debates } = await User.findOne({ username }).select("debates");
-
+        const {debates} = await User.findOne({ username }).populate('debates');
+        
         if (!debates.length) {
             return res
                 .status(404)
