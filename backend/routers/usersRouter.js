@@ -5,6 +5,7 @@ import {
     updateUser,
     deleteUser,
     pushNotification,
+    getUserDebates,
 } from "../controllers/usersController.js";
 import isAuth from "../middlewares/isAuth.js";
 import hasPermission from "../middlewares/hasPermission.js";
@@ -39,5 +40,6 @@ usersRouter.post(
     createUser,
 );
 usersRouter.route("/notifications").post(pushNotification);
+usersRouter.route("/:username/debates").get(isAuth, getUserDebates);
 
 export default usersRouter;
