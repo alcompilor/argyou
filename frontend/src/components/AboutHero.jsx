@@ -62,14 +62,14 @@ export const AboutHero = () => {
                     </div>
                     <div className="flex items-center sm:justify-center">
                         <a
-                            href="mailto:team@argyou.co"
+                            href="mailto:team@argyou.app"
                             className="inline-flex items-center justify-center text-white rounded-xl px-5 py-2 mr-6 font-semibold bg-rose-500 hover:bg-rose-600 focus:ring-rose-300 focus:outline-none focus:ring-4"
                         >
                             <IconMailFilled className="mr-2 h-5 w-5" />
                             Contact Us
                         </a>
                         <a
-                            href="/#team"
+                            href="#team"
                             aria-label=""
                             className="inline-flex items-center font-semibold text-gray-700 transition-colors duration-200 hover:text-gray-800"
                         >
