@@ -29,7 +29,7 @@ const SignupPage = () => {
                     <TextInput
                         id="username"
                         type="text"
-                        placeholder="Bonnie Green"
+                        placeholder="Robert Green"
                         addon="@"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -72,7 +72,7 @@ const SignupPage = () => {
                     />
                 </div>
                 <div className="submit-container flex justify-center mt-8">
-                    <Button type="submit" className="text-white bg-red-500 rounded-full w-56 h-12 font-bold hover:bg-red-600">
+                    <Button type="submit" className="text-white bg-rose-500 rounded-full w-56 h-12 font-bold hover:bg-rose-500">
                         Sign Up
                     </Button>
                 </div>
