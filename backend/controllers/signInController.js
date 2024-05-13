@@ -1,36 +1,60 @@
-import User from '../models/usersModel.js';  
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import User from "../models/usersModel.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import ResponseData from "../classes/ResponseData.js";
+import ErrorResponse from "../classes/ErrorResponse.js";
 
-export async function signIn(req, res) {
+export async function signIn(req, res, next) {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).select(
+            "password username isAdmin",
+        );
 
         if (!user) {
-            return res.status(401).json({ message: 'Authentication failed. User not found.' });
+            return res
+                .status(404)
+                .json(
+                    new ResponseData(
+                        "Authentication failed. User not found.",
+                        404,
+                    ),
+                );
         }
 
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
-            return res.status(401).json({ message: 'Authentication failed. Incorrect password.' });
+            return res
+                .status(401)
+                .json(
+                    new ResponseData(
+                        "Authentication failed. Invalid password.",
+                        401,
+                    ),
+                );
         }
 
         const token = jwt.sign(
-            { username: user.username, isAdmin: user.isAdmin ? true : false }, 
-            process.env.SECRET_KEY, 
-            { expiresIn: '1h' }
+            { username: user.username, isAdmin: user.isAdmin ? true : false },
+            process.env.SECRET_KEY,
+            { expiresIn: "1h" },
         );
 
-        res.cookie('access_token', token, {
+        res.cookie("access_token", token, {
             httpOnly: true,
-            sameSite: 'strict',  
+            sameSite: "strict",
             secure: true,
-            maxAge: 3600000  // 1 hour
+            maxAge: 6 * 60 * 60 * 1000, // 6 hours
         });
 
-        res.status(200).json({ message: 'Logged in successfully' });
+        res.cookie("auth", user.username, {
+            sameSite: "strict",
+            secure: true,
+            maxAge: 6 * 60 * 60 * 1000,
+        });
+
+        res.status(200).json(new ResponseData("Logged in successfully", 200));
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+        next(new ErrorResponse(error.message, 500));
     }
 }

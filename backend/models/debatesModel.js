@@ -1,123 +1,120 @@
 import mongoose from "mongoose";
-import { validateImage } from "../utils/validateImage.js";
 
 const Schema = mongoose.Schema;
 
 // 00:00 time format
 function validateTime(startTime) {
-  const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-  return timeRegex.test(startTime);
+    const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+    return timeRegex.test(startTime);
 }
 
 // three questions required
 function validateQuestions(questions) {
-  return questions.length === 3;
+    return questions.length === 3;
 }
 
 const debatesSchema = new Schema({
-  title: {
-    type: String,
-    required: [true, "Debate title is required"],
-    minLength: [20, "Too short title"],
-    maxLength: 100,
-  },
-  creatorUsername: {
-    type: String,
-    ref: "users",
-  },
-  opponentUsername: {
-    type: String,
-    ref: "users",
-    validate: {
-      validator: function(opponentUsername) {
-          return opponentUsername !== this.creatorUsername;
-      },
-      message: "You can't be a debate creator and an opponent at the same time"
+    title: {
+        type: String,
+        required: [true, "Debate title is required"],
+        minLength: [20, "Too short title"],
+        maxLength: 100,
     },
-  },
-  owner: {
-    type: String,
-    default: function () {
-      return this.creatorUsername;
+    creatorUsername: {
+        type: String,
+        ref: "users",
     },
-  },
-  startTime: {
-    type: String,
-    required: [true, "Predefined start time is needed"],
-    validate: [
-      validateTime,
-      'Invalid start time format. Please use "00:00" format.',
-    ],
-  },
-  endTime: {
-    type: String,
-    validate: [
-      validateTime,
-      'Invalid end time format. Please use "00:00" format.',
-    ],
-  },
-  messages: {
-    type: [
-      {
-        content: {
-          type: String,
-          required: true,
-          minLength: 10,
-          maxLength: 500,
+    opponentUsername: {
+        type: String,
+        ref: "users",
+        validate: {
+            validator: function (opponentUsername) {
+                return opponentUsername !== this.creatorUsername;
+            },
+            message:
+                "You can't be a debate creator and an opponent at the same time",
         },
-        username: {
-          type: String,
-          required: true,
-          ref: "users",
-        },
-        publishDate: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
-  },
-  thumbnail: {
-    type: Buffer,
-    validate: {
-      validator: thumbnail => validateImage(thumbnail, 2),
-      message: "Thumbnail must be a .PNG or .JPEG image, and less than 2MB in size"
-    }
-  },
-  questions: {
-    type: Array,
-    required: true,
-    validate: [validateQuestions, "There should be three questions"],
-  },
-  status: {
-    type: String,
-    enum: {
-      values: ["Waiting Participant", "Ongoing", "Shookhands", "Ended"],
-      message: "Debate state is not supported",
     },
-    default: "Waiting Participant",
-  },
-  comments: {
-    type: [
-      {
-        username: {
-          type: String,
-          required: true,
-          ref: "users",
+    owner: {
+        type: String,
+        default: function () {
+            return this.creatorUsername;
         },
-        content: {
-          type: String,
-          required: true,
-          minLength: 5,
-          maxLength: 500,
+    },
+    startTime: {
+        type: String,
+        required: [true, "Predefined start time is needed"],
+        validate: [
+            validateTime,
+            'Invalid start time format. Please use "00:00" format.',
+        ],
+    },
+    endTime: {
+        type: String,
+        validate: [
+            validateTime,
+            'Invalid end time format. Please use "00:00" format.',
+        ],
+    },
+    messages: {
+        type: [
+            {
+                content: {
+                    type: String,
+                    required: true,
+                    minLength: 10,
+                    maxLength: 500,
+                },
+                username: {
+                    type: String,
+                    required: true,
+                    ref: "users",
+                },
+                publishDate: {
+                    type: Date,
+                    default: Date.now,
+                },
+            },
+        ],
+    },
+    thumbnail: {
+        buffer: Buffer,
+        mime: String,
+    },
+    questions: {
+        type: Array,
+        required: true,
+        validate: [validateQuestions, "There should be three questions"],
+    },
+    status: {
+        type: String,
+        enum: {
+            values: ["Waiting Participant", "Ongoing", "Shookhands", "Ended"],
+            message: "Debate state is not supported",
         },
-        publishDate: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
-  },
+        default: "Waiting Participant",
+    },
+    comments: {
+        type: [
+            {
+                username: {
+                    type: String,
+                    required: true,
+                    ref: "users",
+                },
+                content: {
+                    type: String,
+                    required: true,
+                    minLength: 5,
+                    maxLength: 500,
+                },
+                publishDate: {
+                    type: Date,
+                    default: Date.now,
+                },
+            },
+        ],
+    },
 });
 
 const Debate = mongoose.model("debates", debatesSchema);

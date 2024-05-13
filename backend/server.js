@@ -2,11 +2,13 @@ import express from "express";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { mountDB, unmountDB } from "./utils/dbConnection.js";
 import usersRouter from "./routers/usersRouter.js";
-import authRouter from "./routers/authRouter.js";
+import signInRouter from "./routers/signInRouter.js";
 import debatesRouter from "./routers/debatesRouter.js";
-import logoutRouter from "./routers/logoutRouter.js"
+import logoutRouter from "./routers/logoutRouter.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 dotenv.config();
 
 const EXPRESS_PORT = 3000;
@@ -18,13 +20,20 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(cookieParser());
 server.use(helmet());
+server.use(
+    cors({
+        origin: "*",
+    }),
+);
 
 // Here should routers be used:
 // ex: server.use("/debates", debatesRouter);
 server.use("/api/v1/users", usersRouter);
-server.use("/api/v1/auth", authRouter);
+server.use("/api/v1/auth", signInRouter);
 server.use("/api/v1/debates", debatesRouter);
 server.use("/api/v1/logout", logoutRouter);
+
+server.use(errorHandler);
 
 server.listen(EXPRESS_PORT, (err) => {
     err
@@ -32,7 +41,7 @@ server.listen(EXPRESS_PORT, (err) => {
         : console.log(`Server running at port ${EXPRESS_PORT}..`);
 });
 
-process.on('SIGINT', async () => {
+process.on("SIGINT", async () => {
     await unmountDB();
     process.exit(0);
 });
