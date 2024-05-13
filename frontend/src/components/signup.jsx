@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import './signup.css';
 import { Button, Label, TextInput } from "flowbite-react";
 
 const SignupPage = () => {
-    const [action, setAction] = useState("Sign Up");
-
     // State to store user inputs
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -16,17 +13,16 @@ const SignupPage = () => {
         console.log('Username:', username);
         console.log('Email:', email);
         console.log('Password:', password);
-        // Continue later with sending data to the backend server
     };
 
     return (
-        <div className='container'>
-            <div className='header'>
-                <div className="text">{action}</div>
-                <div className='underline'></div>
+        <div className='container mx-auto mt-12 bg-white p-8 shadow-lg rounded-lg w-full max-w-3xl'>
+            <div className='header flex flex-col items-center gap-2 w-full my-5'>
+                <div className="text text-4xl font-bold text-gray-800">Sign Up</div>
+                <div className='underline w-16 h-1.5 bg-gray-800 rounded-full'></div>
             </div>
-            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-                <div className="max-w-md">
+            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+                <div>
                     <div className="mb-2 block">
                         <Label htmlFor="username" value="Username" />
                     </div>
@@ -38,9 +34,12 @@ const SignupPage = () => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
+                        shadow={true}
+                        sizing="md"
+                        className="w-full"
                     />
                 </div>
-                <div className="max-w-md">
+                <div>
                     <div className="mb-2 block">
                         <Label htmlFor="email" value="Email" />
                     </div>
@@ -51,9 +50,12 @@ const SignupPage = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        shadow={true}
+                        sizing="md"
+                        className="w-full"
                     />
                 </div>
-                <div className="max-w-md">
+                <div>
                     <div className="mb-2 block">
                         <Label htmlFor="password" value="Password" />
                     </div>
@@ -64,10 +66,13 @@ const SignupPage = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        shadow={true}
+                        sizing="md"
+                        className="w-full"
                     />
                 </div>
-                <div className="submit-container">
-                    <Button type="submit">
+                <div className="submit-container flex justify-center mt-8">
+                    <Button type="submit" className="text-white bg-red-500 rounded-full w-56 h-12 font-bold hover:bg-red-600">
                         Sign Up
                     </Button>
                 </div>
