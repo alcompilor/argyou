@@ -39,7 +39,7 @@ usersRouter.post(
     validateImage(IMAGE_SIZE),
     createUser,
 );
-usersRouter.route("/notifications").post(pushNotification);
+usersRouter.route("/notifications").post(isAuth, pushNotification);
 usersRouter.route("/:username/debates").get(isAuth, getUserDebates);
 
 export default usersRouter;

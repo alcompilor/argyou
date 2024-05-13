@@ -2,12 +2,6 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-// 00:00 time format
-function validateTime(startTime) {
-    const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-    return timeRegex.test(startTime);
-}
-
 // three questions required
 function validateQuestions(questions) {
     return questions.length === 3;
@@ -42,19 +36,11 @@ const debatesSchema = new Schema({
         },
     },
     startTime: {
-        type: String,
+        type: Date,
         required: [true, "Predefined start time is needed"],
-        validate: [
-            validateTime,
-            'Invalid start time format. Please use "00:00" format.',
-        ],
     },
     endTime: {
-        type: String,
-        validate: [
-            validateTime,
-            'Invalid end time format. Please use "00:00" format.',
-        ],
+        type: Date,
     },
     messages: {
         type: [
@@ -115,6 +101,9 @@ const debatesSchema = new Schema({
             },
         ],
     },
+    views: {
+        type: Number,
+    }
 });
 
 const Debate = mongoose.model("debates", debatesSchema);
