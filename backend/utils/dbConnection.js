@@ -5,9 +5,14 @@ dotenv.config();
 export const mountDB = async () => {
     try {
         const { MONGODB_URL } = process.env;
-        await mongoose.connect(MONGODB_URL);
 
-        console.log("MongoDB connected successfully");
+        if (mongoose.connection.readyState !== 1) {
+            const connection = await mongoose.connect(MONGODB_URL);
+            console.log("MongoDB connected successfully");
+            return connection;
+        } else {
+            console.log("MongoDB is already connected");
+        }
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
