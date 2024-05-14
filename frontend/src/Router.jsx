@@ -22,6 +22,11 @@ export const router = createBrowserRouter([
         errorElement: <Error404 />,
         children: [],
       },
+
+      {
+        path: "/*",
+        element: <Error404 />,
+      }
     ],
   },
 ]);
