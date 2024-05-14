@@ -36,7 +36,7 @@ export const LogIn = ({ onLoginSuccess }) => {
         <TextInput
           id="email"
           type="email"
-          placeholder="name@fjoedoe.com"
+          placeholder="name@joedoe.com"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
