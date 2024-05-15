@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
 export const useAuthState = () => {
-    const [authState, setAuthState] = useState(Boolean(Cookies.get("auth")));
+    const [authState, setAuthState] = useState(Cookies.get("auth"));
     
     useEffect(() => {
         if (window.cookieStore) {
             const handleCookieChange = () => {
                 const authCookie = Cookies.get("auth");
-                setAuthState(Boolean(authCookie));
+                setAuthState(authCookie);
             };
 
             window.cookieStore.addEventListener("change", handleCookieChange);
