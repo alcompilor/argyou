@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { About } from "./pages/About";
 import { Layout } from "./Layout";
 import { Error404 } from "./pages/Error404";
+import { SignIn } from "./pages/SignIn";
 
 // You can add new routes in the children array to render pages.
 // This github module has an example of how to do so:
@@ -21,6 +22,11 @@ export const router = createBrowserRouter([
         element: <About />,
         errorElement: <Error404 />,
         children: [],
+      },
+      {
+        path: "/login",
+        element: <SignIn />,
+        errorElement: <Error404 />,
       },
     ],
   },

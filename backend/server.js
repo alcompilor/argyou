@@ -22,7 +22,8 @@ server.use(cookieParser());
 server.use(helmet());
 server.use(
     cors({
-        origin: "*",
+        origin: ["https://localhost:5173", "http://localhost:5173"],
+        credentials: true,
     }),
 );
 
