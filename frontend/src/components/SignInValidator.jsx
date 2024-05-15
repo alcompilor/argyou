@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 
-export const LogIn = ({ onLoginSuccess }) => {
+export const SignInValidator = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -60,7 +60,7 @@ export const LogIn = ({ onLoginSuccess }) => {
             id="remember"
             checked={rememberMe}
             onChange={(e) => setRememberMe(e.target.checked)}
-            className="checkbox" // Use your custom class for styling
+            className="checkbox" 
           />
           <Label htmlFor="remember" className="ml-2 block text-sm text-gray-900">
             Remember me
@@ -74,5 +74,3 @@ export const LogIn = ({ onLoginSuccess }) => {
     </form>
   );
 };
-
-export default LogIn;

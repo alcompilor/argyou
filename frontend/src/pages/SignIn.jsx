@@ -1,8 +1,6 @@
-import React from 'react';
-import { LogIn } from '@/components/LogIn';
+import { SignInValidator } from '@/components/SignInValidator';
 import { useNavigate } from 'react-router-dom';
 import logoWhite from "@/assets/isolated-white.svg";
-
 
 export const SignIn = () => {
     const navigate = useNavigate();
@@ -21,7 +19,7 @@ export const SignIn = () => {
                 Sign in to your account
               </h2>
             </div>
-            <LogIn onLoginSuccess={handleLoginSuccess} />
+            <SignInValidator onLoginSuccess={handleLoginSuccess} />
           </div>
         </div>
       );
