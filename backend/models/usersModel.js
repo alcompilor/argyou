@@ -7,6 +7,12 @@ const passwordRegex =
     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/><.,])(?!.*\s).{10,}$/;
 const usernameRegex = /^[a-zA-Z0-9]+(?:[_-]?[a-zA-Z0-9]+)*$/;
 
+const calculateAge = (dob) => {
+    const diff = Date.now() - dob.getTime();
+    const ageDate = new Date(diff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+};
+
 const userSchema = new mongoose.Schema(
     {
         fullName: {
@@ -33,6 +39,18 @@ const userSchema = new mongoose.Schema(
         birthDate: {
             type: Date,
             required: true,
+            validate: {
+                validator: function (value) {
+                    const age = calculateAge(value);
+                    return age >= 13 && age <= 100;
+                },
+                message: (props) => {
+                    const age = calculateAge(props.value);
+                    if (age < 13) return "User must be at least 13 years old.";
+                    if (age > 100) return "User must be at most 100 years old.";
+                    return "";
+                },
+            },
         },
         password: {
             type: String,
