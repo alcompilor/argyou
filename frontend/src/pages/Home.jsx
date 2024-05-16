@@ -1,13 +1,13 @@
-import { HomeComponent } from "@/components/Home/HomeComponent"
-
+import { CardsGrid } from "@/components/Home/CardsGrid";
+import { DetailedQuote } from "@/components/Home/DetailedQuote";
+import { HomeHero } from "@/components/Home/HomeHero";
 
 export const Home = () => {
     return (
         <>
-        
-            <HomeComponent />
-          
-
+            <HomeHero />
+            <DetailedQuote />
+            <CardsGrid />
         </>
     );
 };
