@@ -1,9 +1,9 @@
-import { ProfileCard } from "../components/clientUI/ProfileCard";
+import { ProfileTabs } from "@/components/clientUI/ProfileTabs";
 
 export const Profile = () => {
     return (
         <>
-            <ProfileCard />
+            <ProfileTabs />
         </>
     );
 };
