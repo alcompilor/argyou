@@ -14,30 +14,19 @@ import { Profile } from "./pages/Profile";
 // https://reactrouter.com/en/main/start/tutorial
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Layout />,
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <Error404 />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/about-us",
+        element: <About />,
         errorElement: <Error404 />,
-<<<<<<< Updated upstream
-        children: [
-            {
-                index: true,
-                element: <Home />,
-            },
-            {
-                path: "/about-us",
-                element: <About />,
-                errorElement: <Error404 />,
-                children: [],
-            },
-            {
-                path: "/login",
-                element: <SignIn />,
-                errorElement: <Error404 />,
-            },
-        ],
-    },
-=======
         children: [],
       },
       {
@@ -52,5 +41,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
->>>>>>> Stashed changes
 ]);
