@@ -21,8 +21,28 @@ export const DebatesLog = () => {
         {
           credentials: "include",
         }
-      ).then((res) => res.json()),
+      ).then(
+        (res) => {
+          res.json();
+        }
+      ).catch(
+        (err) => {
+          throw err;
+        }
+      ),
   });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!debates || debates.length === 0) {
+    return <div>No debates found</div>;
+  }
 
   useEffect(() => {
     const fetchDebateData = async () => {
@@ -59,18 +79,6 @@ export const DebatesLog = () => {
 
     fetchDebateData();
   }, [debates]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  if (!debates || debates.length === 0) {
-    return <div>No debates found</div>;
-  }
 
   return (
     <>

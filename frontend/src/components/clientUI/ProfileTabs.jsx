@@ -45,7 +45,7 @@ export const ProfileTabs = () => {
           <ProfileImage userData={data.data} size={"110px"} />
         </div>
         <div>
-          <h5 className="text-2xl font-medium mt-7 text-gray-900 dark:text-white">
+          <h5 className="text-2xl font-medium mt-5 text-gray-900 dark:text-white">
             {data.data.fullName}
           </h5>
           <span className="text-md text-rose-500 dark:text-gray-400 mb-3">
@@ -70,7 +70,7 @@ export const ProfileTabs = () => {
           )}
         </div>
       </div>
-      <ul className="flex flex-wrap text-sm font-medium text-gray-500 border-gray-200 dark:border-gray-700 dark:text-gray-400 ml-20 mb-0">
+      <ul className="flex flex-wrap text-sm font-medium text-gray-500 border-gray-200 dark:border-gray-700 dark:text-gray-400 ml-20">
         <li className="me-2">
           <a
             className={`${tabStyle} ${
@@ -114,6 +114,7 @@ export const ProfileTabs = () => {
           </a>
         </li>
       </ul>
+      <div className="mb-8">
       <div className={`pl-20 pr-20 ${activeTab !== "info" && "hidden"} -mt-1`}>
         <div className="bg-gray-100 p-4 text-sm font-bold">
           <div className="bg-yellow-200 rounded p-3 border-gray-200 border-5 w-fit mb-4 mt-1">
@@ -123,11 +124,17 @@ export const ProfileTabs = () => {
               intellectual battles, where facts collide and ideas spark.
             </h1>
           </div>
-          <div className="p-2 rounded-lg bg-gray-700 text-white mb-4 max-w-24 hover:max-w-60 overflow-hidden transition-max-w duration-300">
-            <p className="truncate hover:text-yellow-200 duration-300">
-              Expertise {data.data.specialization}
-            </p>
-          </div>
+          {data.data.specialization ? (
+            <div className="p-2 rounded-lg bg-gray-700 text-white mb-4 max-w-24 hover:max-w-60 overflow-hidden transition-max-w duration-300">
+              <p className="truncate hover:text-yellow-200 duration-300">
+                Expertise {data.data.specialization}
+              </p>
+            </div>
+          ) : (
+            <div className="p-2 rounded-lg bg-gray-700 mb-4 max-w-20">
+              <p className="text-white hover:text-yellow-200 duration-300">Follower</p>
+            </div>
+          )}
           <h1 className="mb-3 text-rose-600">Email: {data.data.email}</h1>
           <h1 className="mb-3 text-rose-600">Phone number: +467 931 844-57</h1>
           <div className="mb-2">
@@ -153,6 +160,8 @@ export const ProfileTabs = () => {
           <ChangePassword />
         </div>
       </div>
+      </div>
+      
     </>
   );
 };
