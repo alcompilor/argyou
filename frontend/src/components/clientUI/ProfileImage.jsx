@@ -1,8 +1,12 @@
+import { bufferToBase64 } from "@/utils/bufferToBase64";
+
 export const ProfileImage = ({ userData, size }) => {
 
-  const imageBase64 = btoa(
-    String.fromCharCode(...new Uint8Array(userData.avatar.buffer.data))
-  );
+  if (!userData.avatar) {
+    return "Avatar not found";
+  }
+
+  const imageBase64 = bufferToBase64(userData.avatar.buffer.data);
   const imageUrl = `data:${userData.avatar.mime};base64,${imageBase64}`;
 
   return (

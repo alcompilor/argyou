@@ -42,13 +42,13 @@ export async function signIn(req, res, next) {
 
         res.cookie("access_token", token, {
             httpOnly: true,
-            sameSite: "none",
+            sameSite: "strict",
             secure: true,
             maxAge: 6 * 60 * 60 * 1000, // 6 hours
         });
 
         res.cookie("auth", user.username, {
-            sameSite: "none",
+            sameSite: "strict",
             secure: true,
             maxAge: 6 * 60 * 60 * 1000,
         });
