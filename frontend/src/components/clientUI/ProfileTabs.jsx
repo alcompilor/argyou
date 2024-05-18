@@ -70,7 +70,7 @@ export const ProfileTabs = () => {
           )}
         </div>
       </div>
-      <ul className="flex flex-wrap text-sm font-medium text-gray-500 border-gray-200 dark:border-gray-700 dark:text-gray-400 ml-20">
+      <ul className="flex flex-wrap text-sm font-medium text-gray-500 border-gray-200 dark:border-gray-700 dark:text-gray-400 ml-20 mb-0">
         <li className="me-2">
           <a
             className={`${tabStyle} ${
@@ -114,7 +114,7 @@ export const ProfileTabs = () => {
           </a>
         </li>
       </ul>
-      <div className={`pl-20 pr-20 ${activeTab !== "info" && "hidden"}`}>
+      <div className={`pl-20 pr-20 ${activeTab !== "info" && "hidden"} -mt-1`}>
         <div className="bg-gray-100 p-4 text-sm font-bold">
           <div className="bg-yellow-200 rounded p-3 border-gray-200 border-5 w-fit mb-4 mt-1">
             <h1 className="max-w-lg font-medium mb-3">
@@ -124,28 +124,33 @@ export const ProfileTabs = () => {
             </h1>
           </div>
           <div className="p-2 rounded-lg bg-gray-700 text-white mb-4 max-w-24 hover:max-w-60 overflow-hidden transition-max-w duration-300">
-            <p className="truncate hover:text-yellow-200 duration-300">Expertise {data.data.specialization}</p>
+            <p className="truncate hover:text-yellow-200 duration-300">
+              Expertise {data.data.specialization}
+            </p>
           </div>
           <h1 className="mb-3 text-rose-600">Email: {data.data.email}</h1>
-          <h1 className="mb-3 text-rose-600">Phone number: +467 902 645-22</h1>
+          <h1 className="mb-3 text-rose-600">Phone number: +467 931 844-57</h1>
           <div className="mb-2">
-            <p className="text-sm text-rose-600
-            ">
+            <p className="text-sm text-rose-600">
               <IconCake className="inline-block mb-2" />
               {data.data.birthDate.slice(0, 10)}
             </p>
           </div>
         </div>
       </div>
-      <div className={`pl-20 pr-20 ${activeTab !== "debates" && "hidden"}`}>
+      <div
+        className={`pl-20 pr-20 ${activeTab !== "debates" && "hidden"} -mt-1`}
+      >
         <div className="bg-gray-100 p-4 text-sm font-bold">
-            <DebatesLog />
+          <DebatesLog />
         </div>
       </div>
-      <div className={`pl-20 pr-20 ${activeTab !== "settings" && "hidden"}`}>
+      <div
+        className={`pl-20 pr-20 ${activeTab !== "settings" && "hidden"} -mt-1`}
+      >
         <div className="bg-gray-100 p-4 text-sm font-bold">
-            <UploadAvatar userData={data.data} />
-            <ChangePassword />
+          <UploadAvatar userData={data.data} />
+          <ChangePassword />
         </div>
       </div>
     </>

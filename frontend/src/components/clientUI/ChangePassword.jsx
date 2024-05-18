@@ -1,16 +1,18 @@
 import { useAuthState } from "@/hooks/useAuthState";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [result, setResult] = useState("");
+  const [resultColor, setResultColor] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
   const authUsername = useAuthState();
 
   const updatePassword = async (e) => {
     e.preventDefault();
     if (newPassword === repeatPassword) {
-        const formData = new FormData();
+      const formData = new FormData();
       formData.append("password", newPassword);
 
       const res = await fetch(
@@ -28,11 +30,17 @@ export const ChangePassword = () => {
         setResult("Failed to update the password");
         throw new Error(data.message || "Failed to update the profile image");
       }
+      setResultColor("text-green-500");
       setResult("Password successfully updated");
     } else {
-      setResult("Passwords doesn't match");
+      setResultColor("text-red-500");
+      setResult("Passwords don't match");
     }
   };
+
+  useEffect(() => {
+    setIsFormValid(newPassword !== "" && repeatPassword !== "");
+  }, [newPassword, repeatPassword]);
 
   return (
     <details className="w-fit bg-gray-700 text-yellow-200 rounded-lg p-2">
@@ -61,10 +69,11 @@ export const ChangePassword = () => {
         />
         <br />
         <div className="flex flex-col items-end">
-          {result}
+          <p className={`${resultColor}`}>{result}</p>
           <button
             type="submit"
-            className="rounded bg-white text-gray-500 p-1 mt-4 font-extrabold"
+            className={`rounded text-gray-500 ${isFormValid ? "bg-yellow-200" : "bg-white"} p-1 mt-4 font-extrabold`}
+            disabled={!isFormValid}
           >
             Submit
           </button>
