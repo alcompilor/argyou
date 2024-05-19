@@ -1,7 +1,11 @@
-import { IconRocket } from "@tabler/icons-react";
+import { IconTargetArrow, IconPlanet } from "@tabler/icons-react";
 import debateIllustration from "@/assets/imgs/debate_illustration.svg";
+import { useAuthState } from "@/hooks/useAuthState";
+import { NavLink } from "react-router-dom";
 
 export const HomeHero = () => {
+    const authState = useAuthState();
+
     return (
         <div className="relative flex flex-col-reverse py-16 lg:pt-0 lg:flex-col lg:pb-0 bg-gray-50">
             <div className="inset-y-0 top-0 right-0 z-0 w-full max-w-xl px-4 mx-auto md:px-0 lg:pr-0 lg:mb-0 lg:mx-0 lg:w-7/12 lg:max-w-4xl lg:absolute xl:px-0">
@@ -30,13 +34,23 @@ export const HomeHero = () => {
                         connect with a community passionate about discourse.
                     </p>
                     <div className="flex items-center">
-                        <a
-                            href="/signup"
-                            className="inline-flex items-center justify-center text-white rounded-xl px-6 py-3 mr-6 font-semibold bg-rose-500 hover:bg-rose-600 focus:ring-rose-300 focus:outline-none focus:ring-4"
-                        >
-                            <IconRocket className="mr-2 h-5 w-5" />
-                            Get Started
-                        </a>
+                        {authState ? (
+                            <NavLink
+                                to="/debate-space"
+                                className="inline-flex items-center justify-center text-white rounded-xl px-6 py-3 mr-6 font-semibold bg-rose-500 hover:bg-rose-600 focus:ring-rose-300 focus:outline-none focus:ring-4"
+                            >
+                                <IconPlanet className="mr-2 h-5 w-5" />
+                                Debate Space
+                            </NavLink>
+                        ) : (
+                            <NavLink
+                                to="/signup"
+                                className="inline-flex items-center justify-center text-white rounded-xl px-6 py-3 mr-6 font-semibold bg-rose-500 hover:bg-rose-600 focus:ring-rose-300 focus:outline-none focus:ring-4"
+                            >
+                                <IconTargetArrow className="mr-2 h-5 w-5" />
+                                Get Started
+                            </NavLink>
+                        )}
                     </div>
                 </div>
             </div>
