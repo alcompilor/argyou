@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { About } from "./pages/About";
 import { Layout } from "./Layout";
 import { Error404 } from "./pages/Error404";
+import { Home } from "./pages/Home";
 import { SignIn } from "./pages/SignIn";
 import { Admin } from "./pages/Admin";
 
@@ -13,27 +14,31 @@ import { Admin } from "./pages/Admin";
 // https://reactrouter.com/en/main/start/tutorial
 
 export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    errorElement: <Error404 />,
-    children: [
-      {
-        path: "/about-us",
-        element: <About />,
+    {
+        path: "/",
+        element: <Layout />,
         errorElement: <Error404 />,
-        children: [],
-      },
-      {
-        path: "/login",
-        element: <SignIn />,
-        errorElement: <Error404 />,
-      },
-      {
-      path: "/admin-panel",
-      element: <Admin />,
-      errorElement: <Error404 />,
-      }
-    ],
-  },
+        children: [
+            {
+                index: true,
+                element: <Home />,
+            },
+            {
+                path: "/about-us",
+                element: <About />,
+                errorElement: <Error404 />,
+                children: [],
+            },
+            {
+                path: "/login",
+                element: <SignIn />,
+                errorElement: <Error404 />,
+            },
+            {
+              path: "/admin-panel",
+              element: <Admin />,
+              errorElement: <Error404 />,
+            }
+        ],
+    },
 ]);
