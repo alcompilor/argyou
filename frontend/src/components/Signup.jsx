@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Label, TextInput, Select, FileInput } from "flowbite-react";
 
-const SignupPage = () => {
-    // State to store user inputs
+const Signup = ({ onSignupSuccess }) => {
     const [fullName, setFullName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -11,17 +10,21 @@ const SignupPage = () => {
     const [gender, setGender] = useState('');
     const [avatar, setAvatar] = useState(null);
 
-    // Function to handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Full Name:', fullName);
-        console.log('Username:', username);
-        console.log('Email:', email);
-        console.log('Birth Date:', birthDate);
-        console.log('Password:', password);
-        console.log('Gender:', gender);
-        console.log('Avatar:', avatar);
-        // Add further form submission logic here
+        const userData = {
+            fullName,
+            username,
+            email,
+            birthDate,
+            password,
+            gender,
+            avatar
+        };
+        console.log('User Data:', userData);
+        if (onSignupSuccess) {
+            onSignupSuccess({ message: 'User signed up successfully!' });
+        }
     };
 
     return (
@@ -55,7 +58,6 @@ const SignupPage = () => {
                         id="username"
                         type="text"
                         placeholder="robertgreen"
-                        addon="@"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
@@ -144,7 +146,7 @@ const SignupPage = () => {
                     />
                 </div>
                 <div className="submit-container flex justify-center mt-8">
-                    <Button type="submit" className="text-white bg-rose-500 rounded-full w-56 h-12 font-bold hover:bg-rose-500">
+                    <Button type="submit" className="text-white bg-rose-500 rounded-full w-56 h-12 font-bold hover:bg-rose-600">
                         Sign Up
                     </Button>
                 </div>
@@ -153,4 +155,4 @@ const SignupPage = () => {
     );
 };
 
-export default SignupPage;
+export default Signup;
