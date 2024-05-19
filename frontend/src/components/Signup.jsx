@@ -9,21 +9,39 @@ const Signup = ({ onSignupSuccess }) => {
     const [password, setPassword] = useState('');
     const [gender, setGender] = useState('');
     const [avatar, setAvatar] = useState(null);
+    const [error, setError] = useState(null);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const userData = {
-            fullName,
-            username,
-            email,
-            birthDate,
-            password,
-            gender,
-            avatar
-        };
-        console.log('User Data:', userData);
-        if (onSignupSuccess) {
-            onSignupSuccess({ message: 'User signed up successfully!' });
+        
+        const formData = new FormData();
+        formData.append('fullName', fullName);
+        formData.append('username', username);
+        formData.append('email', email);
+        formData.append('birthDate', birthDate);
+        formData.append('password', password);
+        formData.append('gender', gender);
+        if (avatar) {
+            formData.append('avatar', avatar);
+        }
+
+        try {
+            const response = await fetch('/api/signup', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to register user');
+            }
+
+            const data = await response.json();
+            if (onSignupSuccess) {
+                onSignupSuccess({ message: 'User signed up successfully!' });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Failed to sign up. Please try again.');
         }
     };
 
@@ -34,6 +52,7 @@ const Signup = ({ onSignupSuccess }) => {
                 <div className='underline w-16 h-1.5 bg-gray-800 rounded-full'></div>
             </div>
             <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+                {error && <div className="text-red-500">{error}</div>}
                 <div>
                     <div className="mb-2 block">
                         <Label htmlFor="fullName" value="Full Name" />
@@ -129,7 +148,6 @@ const Signup = ({ onSignupSuccess }) => {
                         <option value="">Select your gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
-                        <option value="other">Other</option>
                     </Select>
                 </div>
                 <div>
