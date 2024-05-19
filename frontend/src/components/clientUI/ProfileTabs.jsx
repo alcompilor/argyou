@@ -75,8 +75,8 @@ export const ProfileTabs = () => {
           <a
             className={`${tabStyle} ${
               activeTab === "info"
-                ? "text-rose-600 bg-gray-100"
-                : "dark:bg-gray-800 dark:text-rose-500"
+                ? "text-rose-400 bg-gray-100"
+                : "dark:bg-gray-800 dark:text-rose-400"
             }`}
             onClick={() => {
               setActiveTab("info");
@@ -89,8 +89,8 @@ export const ProfileTabs = () => {
           <a
             className={`${tabStyle} ${
               activeTab === "debates"
-                ? "text-rose-600 bg-gray-100"
-                : "dark:bg-gray-800 dark:text-rose-500"
+                ? "text-rose-400 bg-gray-100"
+                : "dark:bg-gray-800 dark:text-rose-400"
             }`}
             onClick={() => {
               setActiveTab("debates");
@@ -103,8 +103,8 @@ export const ProfileTabs = () => {
           <a
             className={`${tabStyle} ${
               activeTab === "settings"
-                ? "text-rose-600 bg-gray-100"
-                : "dark:bg-gray-800 dark:text-rose-500"
+                ? "text-rose-400 bg-gray-100"
+                : "dark:bg-gray-800 dark:text-rose-400"
             }`}
             onClick={() => {
               setActiveTab("settings");
@@ -117,7 +117,7 @@ export const ProfileTabs = () => {
       <div className="mb-8">
       <div className={`pl-20 pr-20 ${activeTab !== "info" && "hidden"} -mt-1`}>
         <div className="bg-gray-100 p-4 text-sm font-bold">
-          <div className="bg-yellow-200 rounded p-3 border-gray-200 border-5 w-fit mb-4 mt-1">
+          <div className="bg-rose-200 rounded p-3 border-gray-200 border-5 w-fit mb-4 mt-1">
             <h1 className="max-w-lg font-medium mb-3">
               A passionate debater with a knack for dissecting arguments and
               crafting compelling narratives. I thrive in the heat of
@@ -126,13 +126,13 @@ export const ProfileTabs = () => {
           </div>
           {data.data.specialization ? (
             <div className="p-2 rounded-lg bg-gray-700 text-white mb-4 max-w-24 hover:max-w-fit">
-              <p className="truncate hover:text-yellow-200 duration-300">
+              <p className="truncate hover:text-rose-100 duration-300">
                 Expertise {data.data.specialization}
               </p>
             </div>
           ) : (
             <div className="p-2 rounded-lg bg-gray-700 mb-4 max-w-20">
-              <p className="text-white hover:text-yellow-200 duration-300">Follower</p>
+              <p className="text-white hover:text-rose-100 duration-300">Follower</p>
             </div>
           )}
           <h1 className="mb-3 text-rose-600">Email: {data.data.email}</h1>
