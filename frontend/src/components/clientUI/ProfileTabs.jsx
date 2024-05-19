@@ -125,7 +125,7 @@ export const ProfileTabs = () => {
             </h1>
           </div>
           {data.data.specialization ? (
-            <div className="p-2 rounded-lg bg-gray-700 text-white mb-4 max-w-24 hover:max-w-60 overflow-hidden transition-max-w duration-300">
+            <div className="p-2 rounded-lg bg-gray-700 text-white mb-4 max-w-24 hover:max-w-fit">
               <p className="truncate hover:text-yellow-200 duration-300">
                 Expertise {data.data.specialization}
               </p>

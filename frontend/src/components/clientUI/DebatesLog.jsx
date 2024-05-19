@@ -37,7 +37,7 @@ export const DebatesLog = () => {
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>No debates found</div>;
   }
 
   if (!debates || debates.length === 0) {
