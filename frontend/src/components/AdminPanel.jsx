@@ -1,5 +1,3 @@
-// AdminPanel.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Button, Label, TextInput } from "flowbite-react";
 
@@ -109,5 +107,3 @@ export const AdminPanel = () => {
     </div>
   );
 };
-
-export default AdminPanel;
