@@ -67,18 +67,18 @@ export const UploadAvatar = ({ userData }) => {
       .then(async (res) => {
         const blob = await res.blob();
         await uploadFile(blob);
-    })
-    .catch((error) =>
-    console.error("Error uploading default avatar:", error)
-    );
+      })
+      .catch((error) =>
+        console.error("Error uploading default avatar:", error)
+      );
   };
 
   return (
-    <label htmlFor="fileInput">
-      <div className=" bg-gray-700 w-fit rounded-lg text-yellow-200 mb-2">
+    <label htmlFor="fileInput" className="inline-block">
+      <div className="bg-gray-700 w-fit rounded-lg text-rose-200 mb-2 overflow-hidden">
         <div className="flex flex-row p-1">
-        <IconUpload />
-        <p className="ml-2 mt-1">Change Profile Image</p>
+          <IconUpload />
+          <p className="ml-2 mt-1">Change Profile Image</p>
         </div>
       </div>
       <input
