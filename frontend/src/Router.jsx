@@ -3,6 +3,7 @@ import { About } from "./pages/About";
 import { Layout } from "./Layout";
 import { Error404 } from "./pages/Error404";
 import { SignIn } from "./pages/SignIn";
+import { Admin } from "./pages/Admin";
 
 // You can add new routes in the children array to render pages.
 // This github module has an example of how to do so:
@@ -28,6 +29,11 @@ export const router = createBrowserRouter([
         element: <SignIn />,
         errorElement: <Error404 />,
       },
+      {
+      path: "/admin-panel",
+      element: <Admin />,
+      errorElement: <Error404 />,
+      }
     ],
   },
 ]);
