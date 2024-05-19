@@ -1,7 +1,7 @@
 export const addComment = async ({ id, content }) => {
     try {
         const res = await fetch(
-            `http://localhost:3000/api/v1/debates/${id}/comments`,
+            `${import.meta.env.VITE_BACKEND_URL}/api/v1/debates/${id}/comments`,
             {
                 credentials: "include",
                 method: "PATCH",
