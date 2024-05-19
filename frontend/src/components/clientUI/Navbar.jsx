@@ -2,8 +2,15 @@ import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo.jsx";
 import { IconBell } from "@tabler/icons-react";
 import { Navbar as NavbarFlowBite } from "flowbite-react";
+import { useMutation } from "@tanstack/react-query";
+import { logoutUser } from "@/services/logoutUser.js";
 
 export const Navbar = ({ isLoggedIn }) => {
+    const { mutate } = useMutation({ mutationFn: logoutUser });
+    const handleLogout = () => {
+        mutate();
+    };
+
     const styleLink =
         "transition-colors duration-300 ease-in-out hover:bg-gray-800 rounded-lg p-2 text-white font-bold";
     return (
@@ -47,7 +54,11 @@ export const Navbar = ({ isLoggedIn }) => {
                             </li>
                             Profile
                         </NavLink>
-                        <NavLink to="/logout" className={styleLink}>
+                        <NavLink
+                            to="/"
+                            onClick={handleLogout}
+                            className={styleLink}
+                        >
                             Logout
                         </NavLink>
                     </>
