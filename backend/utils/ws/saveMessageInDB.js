@@ -8,6 +8,6 @@ export const saveMessageInDB = async (username, message, isBinary, debate) => {
     };
 
     debate.messages.push(messageObject);
-    debate.heatScore = measureHeat(messageObject.content);
+    debate.heatScore = measureHeat(messageObject);
     await debate.save();
 };
