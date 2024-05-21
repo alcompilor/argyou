@@ -1,35 +1,34 @@
 import vader from "vader-sentiment";
 
-function vaderAssess() {
-    const intensity = vader.SentimentIntensityAnalyzer.polarity_scores("What a terrible experience!");
-    return intensity;
+let messageCount = 0;
+let totalIntensity = 0;
+let lastUpdateTime = new Date().getTime();
+
+// assess sentiment intensity
+function vaderAssess(content) {
+    const intensity = vader.SentimentIntensityAnalyzer.polarity_scores(content);
+    const normalizedScore = (intensity.compound + 1) / 2;
+    return normalizedScore;
 }
 
-const debate = {
-    title: "debate title",
-    creatorUsername: "debateCreator",
-    startTime: "2024-05-20T20:00:00.000+00:00",
-    questions: ["Q1, Q2, Q3"],
-    messages: [
-        {
-            content: "It's the first message",
-            username: "debateCreator",
-            publishDate: "2024-05-20T20:00:10.000+00:00",
-        },
-        {
-            content: "It's the first message",
-            username: "debateOpponent",
-            publishDate: "2024-05-20T20:00:20.000+00:00",
+export function measureHeat(newMessage) {
+    const currentTime = new Date().getTime();
+    const messageTime = new Date(newMessage.publishDate).getTime();
+    const secondsDifference = (currentTime - messageTime) / 1000;
+
+    if (secondsDifference < 300) {
+
+        messageCount++;
+        totalIntensity += vaderAssess(newMessage.content);
+
+        if (secondsDifference < 300 && secondsDifference >= 0) {
+            lastUpdateTime = currentTime;
         }
-    ]
+    }
+
+    const frequencyRate = messageCount / ((currentTime - lastUpdateTime) / 1000 / 60);
+    const averageIntensity = messageCount > 0 ? totalIntensity / messageCount : 0;
+    const heatedRate = (frequencyRate + averageIntensity) / 2;
+
+    return heatedRate;
 }
-
-function messagesFrequency() {
-
-}
-
-export const calculateHeatScore = (messageObject, debate) => {
-    
-};
-
-vaderAssess();
