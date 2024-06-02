@@ -20,7 +20,7 @@ export const SignInValidator = ({ onLoginSuccess }) => {
                     body: JSON.stringify({
                         email,
                         password,
-                        clientTime: new Date().toISOString(),
+                        clientTime: new Date().toLocaleString(),
                     }),
                     credentials: "include",
                 }
