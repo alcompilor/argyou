@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { IconBell } from "@tabler/icons-react";
 import { useAuthState } from "@/hooks/useAuthState";
+import styles from "../../assets/styles/Notifications.module.css";
 
 export const Notifications = () => {
   const [visible, setVisibility] = useState(false);
@@ -60,33 +61,23 @@ export const Notifications = () => {
   }
 
   function getDateAndTimeFormat(date) {
-    const notificationTime = new Date(date);
-    return (
-      notificationTime.getFullYear() +
-      "-" +
-      notificationTime.getMonth() +
-      "-" +
-      notificationTime.getDay() +
-      " " +
-      notificationTime.getHours() +
-      ":" +
-      notificationTime.getMinutes()
-    );
+    const notificationTime = new Date(date).toISOString().split("T");
+    return notificationTime[0] + " " + notificationTime[1].split(":00.000Z")[0];
   }
 
   return (
     <li
       className="relative"
       onMouseEnter={() => setVisibility(true)}
-      onMouseLeave={() => {
-        setVisibility(false);
-      }}
     >
       <IconBell className="absolut text-white-500 fill-current hover:fill-rose-500" />
       {userData.success && visible && (
         <div
-          className="max-w-70 h-fit bg-gray-100 absolute p-1 m-1 ml-2 duration-300 rounded-e-xl rounded-es-xl dark:bg-gray-700"
+          className={`max-w-70 max-h-56 overflow-y-auto bg-gray-100 absolute p-1 m-1 ml-2 duration-300 rounded-lg dark:bg-gray-700 ${styles.scrollbar}`}
           style={{ zIndex: 1000 }}
+          onMouseLeave={() => {
+            setVisibility(false);
+          }}
         >
           {userData.data.notifications
             .slice()

@@ -90,6 +90,7 @@ export const updateDebate = async (req, res, next) => {
             status,
             messages,
             comments,
+            notifications
         } = req.body;
         const { _id } = req.params;
 
@@ -109,6 +110,7 @@ export const updateDebate = async (req, res, next) => {
                 status,
                 messages,
                 comments,
+                notifications
             },
             {
                 new: true,
