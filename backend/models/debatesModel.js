@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 // three questions required
 function validateQuestions(questions) {
-    return questions.length === 3;
+    return questions.length > 0 && questions.length < 4;
 }
 
 const debatesSchema = new Schema({
@@ -75,7 +75,7 @@ const debatesSchema = new Schema({
     questions: {
         type: Array,
         required: true,
-        validate: [validateQuestions, "There should be three questions"],
+        validate: [validateQuestions, "You are allowed to have between one and three questions."],
     },
     status: {
         type: String,
