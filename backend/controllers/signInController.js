@@ -1,12 +1,12 @@
 import User from "../models/usersModel.js";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import ResponseData from "../classes/ResponseData.js";
 import ErrorResponse from "../classes/ErrorResponse.js";
+import { generateAuthToken } from "../utils/generateAuthToken.js";
 
 export async function signIn(req, res, next) {
     try {
-        const { email, password } = req.body;
+        const { email, password, clientTime } = req.body;
         const user = await User.findOne({ email }).select(
             "password username isAdmin",
         );
@@ -34,24 +34,10 @@ export async function signIn(req, res, next) {
                 );
         }
 
-        const token = jwt.sign(
-            { username: user.username, isAdmin: user.isAdmin ? true : false },
-            process.env.SECRET_KEY,
-            { expiresIn: "1h" },
-        );
+        const { token, cookieOpts } = generateAuthToken(clientTime, user);
 
-        res.cookie("access_token", token, {
-            httpOnly: true,
-            sameSite: "strict",
-            secure: true,
-            maxAge: 6 * 60 * 60 * 1000, // 6 hours
-        });
-
-        res.cookie("auth", user.username, {
-            sameSite: "strict",
-            secure: true,
-            maxAge: 6 * 60 * 60 * 1000,
-        });
+        res.cookie("access_token", token, cookieOpts);
+        res.cookie("auth", user.username, cookieOpts);
 
         res.status(200).json(new ResponseData("Logged in successfully", 200));
     } catch (error) {
