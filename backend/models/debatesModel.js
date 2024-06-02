@@ -63,6 +63,11 @@ const debatesSchema = new Schema({
             },
         ],
     },
+    heatScore: {
+        type: Number,
+        min: 0,
+        max: 10
+    },
     thumbnail: {
         buffer: Buffer,
         mime: String,

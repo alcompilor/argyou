@@ -1,6 +1,6 @@
 export const fetchDebate = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/v1/debates/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/debates/${id}`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

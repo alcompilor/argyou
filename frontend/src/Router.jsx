@@ -4,7 +4,7 @@ import { Layout } from "./Layout";
 import { Error404 } from "./pages/Error404";
 import { Home } from "./pages/Home";
 import { SignIn } from "./pages/SignIn";
-import { Admin } from "./pages/Admin";
+import { Profile } from "./pages/Profile";
 
 // You can add new routes in the children array to render pages.
 // This github module has an example of how to do so:
@@ -14,31 +14,36 @@ import { Admin } from "./pages/Admin";
 // https://reactrouter.com/en/main/start/tutorial
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Layout />,
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <Error404 />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/about-us",
+        element: <About />,
         errorElement: <Error404 />,
-        children: [
-            {
-                index: true,
-                element: <Home />,
-            },
-            {
-                path: "/about-us",
-                element: <About />,
-                errorElement: <Error404 />,
-                children: [],
-            },
-            {
-                path: "/login",
-                element: <SignIn />,
-                errorElement: <Error404 />,
-            },
-            {
-              path: "/admin-panel",
-              element: <Admin />,
-              errorElement: <Error404 />,
-            }
-        ],
-    },
+        children: [],
+      },
+      {
+        path: "/login",
+        element: <SignIn />,
+        errorElement: <Error404 />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+        errorElement: <Error404 />,
+      },
+      {
+        path: "/admin-panel",
+        element: <Admin />,
+        errorElement: <Error404 />,
+      }
+    ],
+  },
 ]);
