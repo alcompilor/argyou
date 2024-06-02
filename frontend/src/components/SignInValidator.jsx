@@ -10,9 +10,7 @@ export const SignInValidator = ({ onLoginSuccess }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(
-                `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth`,
-                {
+            const response = await fetch(`http://localhost:3000/api/v1/auth`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

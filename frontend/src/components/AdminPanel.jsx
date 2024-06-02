@@ -1,18 +1,55 @@
+// AdminPanel.jsx
+
 import React, { useState, useEffect } from 'react';
-import { Button, Label, TextInput } from "flowbite-react";
+import { useNavigate } from 'react-router-dom';
+import { Button } from "flowbite-react";
+import { useAuthState } from '@/hooks/useAuthState';
 
 export const AdminPanel = () => {
   const [debates, setDebates] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const authState = useAuthState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (!authState) {
+        navigate('/');
+        return;
+      }
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}//api/v1/users/${authState}`, 
+        {
+          method: 'GET',
+          credentials: 'include',
+        }
+      );
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to fetch user data');
+        }
+        if (!data.data.isAdmin) {
+          navigate('/');
+        }
+      } catch (error) {
+        setError(error.message);
+        navigate('/');
+      }
+    };
+
+    checkAdmin();
+  }, [authState, navigate]);
 
   useEffect(() => {
     const fetchDebates = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/v1/debates', {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}//api/v1/debates`, 
+        {
           method: 'GET',
           credentials: 'include',
-        });
+        }
+      );
         const data = await response.json();
         if (!response.ok) {
           throw new Error(data.message || 'Failed to fetch debates');
@@ -27,10 +64,12 @@ export const AdminPanel = () => {
 
   const handleDeleteDebate = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/debates/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/debates/${id}`,
+       {
         method: 'DELETE',
         credentials: 'include',
-      });
+      }
+    );
 
       if (!response.ok) {
         throw new Error('Failed to delete debate');
@@ -47,14 +86,16 @@ export const AdminPanel = () => {
 
   const handleEndDebate = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/debates/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}//api/v1/debates/${id}`, 
+      {
         method: 'PATCH',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ status: 'Ended' }),
-      });
+      }
+    );
 
       if (!response.ok) {
         throw new Error('Failed to end debate');
