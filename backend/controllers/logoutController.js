@@ -5,13 +5,15 @@ const logout = (_, res, next) => {
     try {
         res.clearCookie("access_token", {
             httpOnly: true,
-            sameSite: "strict",
+            sameSite: "none",
             secure: true,
+            partitioned: true,
         });
 
         res.clearCookie("auth", {
-            sameSite: "strict",
+            sameSite: "none",
             secure: true,
+            partitioned: true,
         });
 
         res.status(200).json(new ResponseData("Logged out successfully", 200));
