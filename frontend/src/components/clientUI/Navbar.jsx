@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo.jsx";
-import { IconBell } from "@tabler/icons-react";
 import { Navbar as NavbarFlowBite } from "flowbite-react";
+import { Notifications } from "./Notifications.jsx";
 import { useMutation } from "@tanstack/react-query";
 import { logoutUser } from "@/services/logoutUser.js";
 
@@ -49,9 +49,7 @@ export const Navbar = ({ isLoggedIn }) => {
                             to="/profile"
                             className={`${styleLink} flex items-center gap-2`}
                         >
-                            <li>
-                                <IconBell className="absolut text-white-500 fill-current hover:fill-rose-500" />
-                            </li>
+                            <Notifications />
                             Profile
                         </NavLink>
                         <NavLink
