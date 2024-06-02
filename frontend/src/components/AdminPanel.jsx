@@ -19,7 +19,7 @@ export const AdminPanel = () => {
         return;
       }
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}//api/v1/users/${authState}`, 
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/${authState}`, 
         {
           method: 'GET',
           credentials: 'include',
