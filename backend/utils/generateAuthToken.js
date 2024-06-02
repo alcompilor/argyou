@@ -13,7 +13,6 @@ export const generateAuthToken = (clientTime, user) => {
     );
 
     const cookieOpts = {
-        httpOnly: true,
         sameSite: "strict",
         secure: true,
         maxAge: expiresIn * 1000, // ms
