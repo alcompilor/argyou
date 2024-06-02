@@ -43,7 +43,7 @@ export const ChangePassword = () => {
   }, [newPassword, repeatPassword]);
 
   return (
-    <details className="w-fit bg-gray-700 text-yellow-200 rounded-lg p-2">
+    <details className="w-fit bg-gray-700 text-rose-200 rounded-lg p-2">
       <summary>Change Password</summary>
       <form className="mt-3" onSubmit={updatePassword}>
         <label htmlFor="newPassword">New password</label>
@@ -72,7 +72,7 @@ export const ChangePassword = () => {
           <p className={`${resultColor}`}>{result}</p>
           <button
             type="submit"
-            className={`rounded text-gray-500 ${isFormValid ? "bg-yellow-200" : "bg-white"} p-1 mt-4 font-extrabold`}
+            className={`rounded text-gray-500 ${isFormValid ? "bg-rose-200" : "bg-white"} p-1 mt-4 font-extrabold`}
             disabled={!isFormValid}
           >
             Submit
