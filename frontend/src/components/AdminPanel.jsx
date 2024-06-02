@@ -86,7 +86,7 @@ export const AdminPanel = () => {
 
   const handleEndDebate = async (id) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}//api/v1/debates/${id}`, 
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/debates/${id}`, 
       {
         method: 'PATCH',
         credentials: 'include',
