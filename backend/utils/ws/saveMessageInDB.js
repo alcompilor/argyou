@@ -1,4 +1,4 @@
-import { measureHeat } from "./heatScore";
+import { measureHeat } from "./heatScore.js";
 
 export const saveMessageInDB = async (username, message, isBinary, debate) => {
     const messageObject = {
