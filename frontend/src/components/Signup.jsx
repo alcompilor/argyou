@@ -10,6 +10,7 @@ const Signup = ({ onSignupSuccess }) => {
     const [gender, setGender] = useState("");
     const [avatar, setAvatar] = useState(null);
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -41,9 +42,12 @@ const Signup = ({ onSignupSuccess }) => {
                 );
             }
 
-            onSignupSuccess({ message: "User signed up successfully!" });
+            setSuccess(() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                return "Your account has been created successfully. We're redirecting you to the login page...";
+            });
+            setTimeout(() => onSignupSuccess(), 6000);
         } catch (error) {
-            console.error("Error:", error);
             setError(error.message || "Failed to sign up. Please try again.");
         }
     };
@@ -61,6 +65,7 @@ const Signup = ({ onSignupSuccess }) => {
                 onSubmit={handleSubmit}
                 encType="multipart/form-data"
             >
+                {success && <div className="text-green-500">{success}</div>}
                 {error && <div className="text-red-500">{error}</div>}
                 <div>
                     <div className="mb-2 block">
