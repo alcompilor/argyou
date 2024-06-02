@@ -27,7 +27,7 @@ const Signup = ({ onSignupSuccess }) => {
 
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_BACKEND_URL}/api/signup`,
+                `${import.meta.env.VITE_BACKEND_URL}/api/v1/users`,
                 {
                     method: 'POST',
                     body: formData
