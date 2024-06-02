@@ -44,7 +44,7 @@ export const AdminPanel = () => {
   useEffect(() => {
     const fetchDebates = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}//api/v1/debates`, 
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/debates`, 
         {
           method: 'GET',
           credentials: 'include',
