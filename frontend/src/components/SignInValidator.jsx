@@ -17,7 +17,11 @@ export const SignInValidator = ({ onLoginSuccess }) => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        clientTime: new Date().toLocaleString(),
+                    }),
                     credentials: "include",
                 }
             );
