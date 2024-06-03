@@ -147,3 +147,21 @@ export const pushNotification = async (req, res, next) => {
         next(new ErrorResponse(error.message, 400));
     }
 };
+
+export const updateNotifications = async (req, res, next) => {
+    try {
+        const notifications = req.body;
+        const username = req.decodedToken.username;
+
+        let user = await User.findOne({ username });
+
+        user.notifications = notifications;
+        user = await user.save();
+
+        res.status(200).json(
+            new ResponseData("Notification updated", 200, notifications),
+        );
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400));
+    }
+};
