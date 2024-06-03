@@ -1,35 +1,52 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-export const HeatBar = ({ heatScore }) => {
-  const [heatScoreInPercent, setHeatScoreInPercent] = useState(0);
-  const [barColor, setBarColor] = useState("bg-gray-200 dark:bg-gray-400");
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHeatScoreInPercent(heatScore * 100);
-      
-      if (heatScoreInPercent < 33.3) {
-        setBarColor("bg-green-400 dark:bg-green-500");
-      } else if (heatScoreInPercent < 66.6) {
-        setBarColor("bg-yellow-300 dark:bg-yellow-500");
-      } else if (heatScoreInPercent <= 100.0) {
-        setBarColor("bg-red-500 dark:bg-red-500");
-      }
-    }, 2000);
-    
-    return () => clearInterval(interval);
+export const HeatBar = ({ debateId }) => {
+  const {
+    data: debateData,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["getDebate"],
+    queryFn: () =>
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/debates/${debateId}`, {
+        credentials: "include",
+      }).then((res) => res.json()),
   });
+
+  if (error) {
+    return "Error occured displaying the heatbar";
+  }
+
+  if (isLoading) {
+    return "Loading heatbar..";
+  }
 
   return (
     <>
-      <div className="py-12 px-4 flex justify-center items-center">
-        <div className="w-3.5 bg-gray-200 rounded h-60 mb-4 dark:bg-gray-700 relative">
-          <div
-            className={`${barColor} w-3.5 rounded absolute bottom-0 duration-300`}
-            style={{height: `${heatScoreInPercent}%`}}
-          ></div>
+      {debateData.success ? (
+        <div
+          key={debateData.data._id}
+          className="py-12 px-4 flex justify-center items-center"
+        >
+          <div className="w-3.5 bg-gray-200 rounded h-60 mb-4 dark:bg-gray-700 relative">
+            <div
+              className={`${
+                debateData.data.heatScore < 0.33
+                  ? "bg-green-400 dark:bg-green-500"
+                  : debateData.data.heatScore < 0.66
+                  ? "bg-yellow-300 dark:bg-yellow-500"
+                  : debateData.data.heatScore < 1
+                  ? "bg-red-500 dark:bg-red-500"
+                  : "bg-gray-200 dark:bg-gray-400"
+              } w-3.5 rounded absolute bottom-0 duration-300`}
+              style={{ height: `${debateData.data.heatScore * 100}%` }}
+            ></div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
