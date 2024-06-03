@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "flowbite-react";
 
 export const HeatBar = ({ debateId }) => {
   const {
     data: debateData,
     error,
     isLoading,
+    isSuccess
   } = useQuery({
     queryKey: ["getDebate"],
     queryFn: () =>
@@ -14,17 +16,9 @@ export const HeatBar = ({ debateId }) => {
       }).then((res) => res.json()),
   });
 
-  if (error) {
-    return "Error occured displaying the heatbar";
-  }
-
-  if (isLoading) {
-    return "Loading heatbar..";
-  }
-
   return (
     <>
-      {debateData.success ? (
+      {isSuccess && (
         <div
           key={debateData.data._id}
           className="py-12 px-4 flex justify-center items-center"
@@ -44,9 +38,9 @@ export const HeatBar = ({ debateId }) => {
             ></div>
           </div>
         </div>
-      ) : (
-        <></>
       )}
+      {error && (<p>Error occured loading the heatbar</p>)}
+      {isLoading && (<Spinner animation="grow" />)}
     </>
   );
 };
