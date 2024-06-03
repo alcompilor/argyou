@@ -21,7 +21,6 @@ export const router = createBrowserRouter([
         path: "/about-us",
         element: <About />,
         errorElement: <Error404 />,
-<<<<<<< HEAD
         children: [
             {
                 index: true,
@@ -33,10 +32,4 @@ export const router = createBrowserRouter([
             }
         ],
     },
-=======
-        children: [],
-      },
-    ],
-  },
->>>>>>> 6080b5b08841be8bf35b5af03b1bb6c29fa1c375
 ]);

@@ -121,7 +121,7 @@ const DebateSpace = () => {
                   className="border p-2 mb-4 w-full"
                 />
               ))}
-              <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">Submit</button>
+              <button type="submit" className="bg-rose-500 text-white px-4 py-2 rounded">Submit</button>
             </form>
           </div>
         </div>
