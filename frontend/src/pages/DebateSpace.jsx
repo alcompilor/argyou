@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -25,10 +24,11 @@ const DebateSpace = () => {
   }, [currentPage]);
 
   const fetchDebates = () => {
-    axios.get(`/api/v1/debates?page=${currentPage}&limit=10`)
-      .then(response => {
-        setDebates(prevDebates => [...prevDebates, ...response.data]);
-        if (response.data.length === 0) {
+    fetch(`/api/v1/debates?page=${currentPage}&limit=10`)
+      .then(response => response.json())
+      .then(data => {
+        setDebates(prevDebates => [...prevDebates, ...data]);
+        if (data.length === 0) {
           setHasMore(false);
         }
       })
@@ -54,9 +54,16 @@ const DebateSpace = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/api/v1/debates', newDebate)
-      .then(response => {
-        setDebates(prevDebates => [response.data, ...prevDebates]);
+    fetch('/api/v1/debates', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newDebate)
+    })
+      .then(response => response.json())
+      .then(data => {
+        setDebates(prevDebates => [data, ...prevDebates]);
         setShowForm(false);
         setNewDebate({
           title: '',

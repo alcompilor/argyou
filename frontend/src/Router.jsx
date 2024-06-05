@@ -3,6 +3,7 @@ import { About } from "./pages/About";
 import { Layout } from "./Layout";
 import { Error404 } from "./pages/Error404";
 import { Signup } from "./components/signup";
+import { DebateSpace } from "./pages/DebateSpace";
 
 // You can add new routes in the children array to render pages.
 // This github module has an example of how to do so:
@@ -31,6 +32,11 @@ export const router = createBrowserRouter([
             element: <Signup />
           }
         ]
+      },
+      {
+        path: "/debate-space",
+        element: <DebateSpace />,
+        errorElement: <Error404 />
       }
     ]
   }
