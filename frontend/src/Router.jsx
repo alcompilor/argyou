@@ -7,6 +7,7 @@ import { SignIn } from "./pages/SignIn";
 import { Profile } from "./pages/Profile";
 import {SignUp} from "./pages/SignUp";
 import { Admin } from "./pages/Admin";
+import { DebateRoom } from "./pages/DebateRoom";
 
 // You can add new routes in the children array to render pages.
 // This github module has an example of how to do so:
@@ -49,6 +50,11 @@ export const router = createBrowserRouter([
       {
         path: "/admin-panel",
         element: <Admin />,
+        errorElement: <Error404 />,
+      },
+      {
+        path: "/debate-room",
+        element: <DebateRoom />,
         errorElement: <Error404 />,
       }
     ],
