@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const DebateSpace = () => {
@@ -17,7 +17,7 @@ const DebateSpace = () => {
     questions: ['', '', '']
   });
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDebates();
@@ -27,12 +27,13 @@ const DebateSpace = () => {
     fetch(`/api/v1/debates?page=${currentPage}&limit=10`)
       .then(response => response.json())
       .then(data => {
+        console.log('Fetched debates:', data);
         setDebates(prevDebates => [...prevDebates, ...data]);
         if (data.length === 0) {
           setHasMore(false);
         }
       })
-      .catch(error => console.error(error));
+      .catch(error => console.error('Error fetching debates:', error));
   };
 
   const handleInputChange = (e) => {
@@ -63,6 +64,7 @@ const DebateSpace = () => {
     })
       .then(response => response.json())
       .then(data => {
+        console.log('Debate created:', data);
         setDebates(prevDebates => [data, ...prevDebates]);
         setShowForm(false);
         setNewDebate({
@@ -74,7 +76,7 @@ const DebateSpace = () => {
           questions: ['', '', '']
         });
       })
-      .catch(error => console.error(error));
+      .catch(error => console.error('Error creating debate:', error));
   };
 
   const handleSearch = (e) => {
@@ -144,7 +146,7 @@ const DebateSpace = () => {
           {debates.filter(debate =>
             debate.title.toLowerCase().includes(searchTerm.toLowerCase())
           ).map(debate => (
-            <div key={debate._id} className="border p-4 m-2 cursor-pointer" onClick={() => history.push(`/room/${debate._id}`)}>
+            <div key={debate._id} className="border p-4 m-2 cursor-pointer" onClick={() => navigate(`/room/${debate._id}`)}>
               <h3 className="text-xl font-bold">{debate.title}</h3>
               <p>By {debate.creatorUsername}</p>
               <p>Against {debate.opponentUsername}</p>
