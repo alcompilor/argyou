@@ -9,7 +9,7 @@ export const DebateGrid = () => {
     });
 
     return (
-        <div className="md:grid md:grid-cols-3 flex flex-col gap-8 p-4 justify-center">
+        <div className="md:grid md:grid-cols-3 flex flex-col gap-8 p-4 justify-center items-start">
             {error && (
                 <p className="text-xl font-bold text-rose-600">
                     Something went wrong - Can&apos;t fetch debates
