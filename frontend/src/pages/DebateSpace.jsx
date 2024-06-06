@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const DebateSpace = () => {
+export const DebateSpace = () => {
   const [debates, setDebates] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -159,5 +159,3 @@ const DebateSpace = () => {
     </div>
   );
 };
-
-export default DebateSpace;
