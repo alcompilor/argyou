@@ -19,16 +19,17 @@ export const getAllDebates = async (_, res, next) => {
 
 export const createDebate = async (req, res, next) => {
     try {
-        const { title, startTime, questions } = req.body;
+        const { title, startTime, endTime, questions } = req.body;
         const creatorUsername = req.decodedToken.username;
 
         const newDebate = new Debate({
             title,
             creatorUsername,
             startTime,
+            endTime,
             questions,
         });
-
+        
         if (req.file) {
             newDebate.thumbnail = {
                 buffer: req.file.buffer,
@@ -144,7 +145,7 @@ export const addOpponent = async (req, res, next) => {
         }
 
         debate.opponentUsername = username;
-        debate = await debate.save();
+        await debate.save();
 
         res.status(200).json(
             new ResponseData(
