@@ -9,7 +9,7 @@ const isAuth = (req, res, next) => {
     if (!token) {
         if (authStatus) {
             res.clearCookie("auth", {
-                sameSite: "strict",
+                sameSite: "none",
                 secure: true,
             });
         }

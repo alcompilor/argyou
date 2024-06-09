@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
         errorElement: <Error404 />,
       },
       {
-        path: "/debate-room",
+        path: "/debate-room/:id",
         element: <DebateRoom />,
         errorElement: <Error404 />,
       }

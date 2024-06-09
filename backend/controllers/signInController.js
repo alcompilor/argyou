@@ -36,7 +36,7 @@ export async function signIn(req, res, next) {
 
         const { token, cookieOpts } = generateAuthToken(clientTime, user);
 
-        res.cookie("access_token", token, {...cookieOpts, httpOnly: true});
+        res.cookie("access_token", token, {...cookieOpts});
         res.cookie("auth", user.username, cookieOpts);
 
         res.status(200).json(new ResponseData("Logged in successfully", 200));

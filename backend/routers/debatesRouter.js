@@ -34,7 +34,7 @@ debatesRouter
 
 debatesRouter
     .route("/:_id")
-    .get(isAuth, hasPermission(DEBATES_COLLECTION, FIELD_NAME), getDebate)
+    .get(isAuth, getDebate)
     .delete(isAuth, hasPermission(DEBATES_COLLECTION, FIELD_NAME), deleteDebate)
     .patch(
         isAuth,

@@ -7,7 +7,7 @@ export const HeatBar = ({ debateId }) => {
     data: debateData,
     error,
     isLoading,
-    isSuccess
+    isSuccess,
   } = useQuery({
     queryKey: ["getDebate"],
     queryFn: () =>
@@ -20,27 +20,26 @@ export const HeatBar = ({ debateId }) => {
     <>
       {isSuccess && (
         <div
+          className="w-8 mt-4 bg-gray-200 rounded mb-4 dark:bg-gray-700 relative"
+          style={{height:"530px"}}
           key={debateData.data._id}
-          className="py-12 px-4 flex justify-center items-center"
         >
-          <div className="w-3.5 bg-gray-200 rounded h-60 mb-4 dark:bg-gray-700 relative">
-            <div
-              className={`${
-                debateData.data.heatScore < 0.33
-                  ? "bg-green-400 dark:bg-green-500"
-                  : debateData.data.heatScore < 0.66
-                  ? "bg-yellow-300 dark:bg-yellow-500"
-                  : debateData.data.heatScore < 1
-                  ? "bg-red-500 dark:bg-red-500"
-                  : "bg-gray-200 dark:bg-gray-400"
-              } w-3.5 rounded absolute bottom-0 duration-300`}
-              style={{ height: `${debateData.data.heatScore * 100}%` }}
-            ></div>
-          </div>
+          <div
+            className={`${
+              debateData.data.heatScore < 0.33
+                ? "bg-green-400 dark:bg-green-500"
+                : debateData.data.heatScore < 0.66
+                ? "bg-yellow-300 dark:bg-yellow-500"
+                : debateData.data.heatScore < 1
+                ? "bg-red-500 dark:bg-red-500"
+                : "bg-gray-200 dark:bg-gray-400"
+            } w-3.5 rounded absolute bottom-0 duration-300`}
+            style={{ height: `${debateData.data.heatScore * 100}%` }}
+          ></div>
         </div>
       )}
-      {error && (<p>Error occured loading the heatbar</p>)}
-      {isLoading && (<Spinner animation="grow" />)}
+      {error && <p>Error occurred loading the heatbar</p>}
+      {isLoading && <Spinner animation="grow" />}
     </>
   );
 };
