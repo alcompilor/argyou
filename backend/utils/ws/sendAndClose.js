@@ -1,4 +1,4 @@
-export const sendAndClose = (ws, message) => {
-    ws.send(message);
+export const sendAndClose = (ws, message, errorMessage) => {
+    ws.send(message, errorMessage);
     ws.close();
 };

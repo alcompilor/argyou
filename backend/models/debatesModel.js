@@ -77,6 +77,17 @@ const debatesSchema = new Schema({
         required: true,
         validate: [validateQuestions, "You are allowed to have between one and three questions."],
     },
+    turn: {
+        type: String,
+        enum: {
+            values: ["creator", "opponent", "Open Chat"],
+            message: "Fault turn value",
+        },
+        default: "creator",
+    },
+    debatedQuestion: {
+        type: String,
+    },
     status: {
         type: String,
         enum: {

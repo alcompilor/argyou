@@ -4,7 +4,6 @@ import ResponseData from "../classes/ResponseData.js";
 const logout = (_, res, next) => {
     try {
         res.clearCookie("access_token", {
-            httpOnly: true,
             sameSite: "none",
             secure: true,
             partitioned: true,
