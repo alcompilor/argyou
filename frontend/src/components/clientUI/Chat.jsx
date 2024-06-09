@@ -100,7 +100,7 @@ export const Chat = () => {
     return;
   }
 
-  const wsUrl = `ws://localhost:3001?token=${token}&room=${id}`;
+  const wsUrl = `${import.meta.env.VITE_BACKEND_WS}?token=${token}&room=${id}`;
   const { isConnected, ws } = useWebSocket(wsUrl);
 
   const handleSendMessage = () => {
