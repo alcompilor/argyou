@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  express:
+    build:
+      context: .
+      dockerfile: Dockerfile.express
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+    restart: always
+
+  websocket:
+    build:
+      context: .
+      dockerfile: Dockerfile.ws
+    ports:
+      - "3001:3001"
+    networks:
+      - backend
+    restart: always
+
+  nginx:
+    image: nginx:1.27.0-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - express
+      - websocket
+    networks:
+      - backend
+    restart: always
+
+networks:
+  backend:
+    driver: bridge
