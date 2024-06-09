@@ -8,9 +8,9 @@ import { useParams } from "react-router-dom";
 
 export const CommentSection = () => {
     const { id } = useParams();
-
+    
     const { data, status, refetch } = useQuery({
-        queryKey: ["debate"],
+        queryKey: ["debate-comments"],
         queryFn: () => fetchDebate(id),
     });
 
@@ -62,7 +62,7 @@ export const CommentSection = () => {
     );
 
     return (
-        <section className="bg-white dark:bg-gray-900 p-12 m-9 lg:py-16 flex flex-col gap-4 antialiased rounded-lg">
+        <section className="bg-white dark:bg-gray-900 px-10 py-12 flex flex-col gap-4 antialiased rounded-2xl md:max-w-md w-full">
             <h2 className="font-semibold text-2xl">Comments</h2>
             {status === "success" && renderSuccess()}
             {status === "pending" && renderPending()}

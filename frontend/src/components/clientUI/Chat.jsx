@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Spinner, Alert } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { useAuthState } from "@/hooks/useAuthState";
-import { HeatBar } from "../HeatBar";
 import { useParams } from "react-router-dom";
+import { fetchDebate } from "@/services/fetchDebate";
 
 const useWebSocket = (url) => {
   const [messages, setMessages] = useState([]);
@@ -80,18 +80,8 @@ export const Chat = () => {
     refetch,
   } = useQuery({
     queryKey: ["debateData"],
-    queryFn: () =>
-      fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/v1/debates/${id}`,
-        {
-          credentials: "include",
-        }
-      )
-        .then((res) => res.json())
-        .catch((err) => {
-          throw err;
-        }),
-    refetchInterval: 2,
+    queryFn: () => fetchDebate(id),
+    refetchInterval: 1000,
   });
 
   if (!token) {
@@ -128,48 +118,45 @@ export const Chat = () => {
   );
 
   return (
-    <div className="bg-gray-700 pt-4 pb-32 pl-10 flex flex-col justify-center items-center min-h-screen">
       <div
-        className="flex justify-center items-center w-full"
-        style={{ height: "560px" }}
+        className="flex justify-center items-center h-[560px] md:max-w-2xl w-full"
       >
         <div
-          className="h-full p-4 flex flex-col justify-center items-center relative"
-          style={{ width: "450px" }}
+          className="h-full flex flex-col justify-center items-center relative w-full"
         >
-          <div className="flex flex-col items-center space-y-4 p-3 bg-white shadow-md rounded-lg w-full h-full">
+          <div className="flex flex-col items-center space-y-4 p-3 bg-white shadow-md rounded-2xl w-full h-full">
             {!isConnected && !error && (
               <Spinner color="pink" aria-label="Loading Spinner" />
             )}
             {error && renderError()}
             {isConnected && isSuccess && (
               <>
-                <div className="p-2 rounded bg-gray-700 text-white font-medium text-sm w-full text-center">
-                  <p className="text-rose-400 mb-1">Debate Question:</p>
-                  <p className="text-rose-400 mb-1">
+                <div className="p-2 rounded-lg bg-gray-700 text-white font-medium text-sm w-full text-center">
+                  <p className="text-zinc-50 mb-1 font-semibold">Current Question:</p>
+                  <p className="text-rose-400 mb-1 font-bold text-lg">
                     {debateData.data.debatedQuestion}
                   </p>
                   {debateData.data.turn === "creator" && (
-                    <p className="text-red-300">
+                    <p className="text-red-300 font-semibold">
                       @{debateData.data.creatorUsername} has five minutes to
                       take a stand
                     </p>
                   )}
                   {debateData.data.turn === "opponent" && (
-                    <p className="text-red-300">
+                    <p className="text-red-300 font-semibold">
                       @{debateData.data.opponentUsername} has five minutes to
                       take a stand
                     </p>
                   )}
                   {debateData.data.turn === "Open Chat" &&
                     debateData.data.status != "Ended" && (
-                      <p className="text-green-300">
+                      <p className="text-green-300 font-semibold">
                         Open chat has been activated, debaters are urged to keep
                         a nice tone.
                       </p>
                     )}
                   {debateData.data.status === "Ended" && (
-                    <p className="text-green-300">Ended</p>
+                    <p className="text-green-300 font-semibold">Ended</p>
                   )}
                 </div>
                 <div className="flex-1 w-full overflow-y-auto border p-4 rounded-lg">
@@ -182,8 +169,8 @@ export const Chat = () => {
                           : "justify-start"
                       }`}
                     >
-                      <div className="p-2 mb-2 rounded-lg max-w-44 w-auto bg-rose-200">
-                        <p className="text-sm break-words">{message.content}</p>
+                      <div className="p-2 mb-2 rounded-xl max-w-[23ch] md:max-w-[33ch] w-auto bg-rose-100">
+                        <p className="text-base break-words">{message.content}</p>
                       </div>
                     </div>
                   ))}
@@ -214,6 +201,5 @@ export const Chat = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
