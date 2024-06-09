@@ -1,20 +1,20 @@
 import { CommentSection } from "@/components/CommentSection";
 import { Chat } from "@/components/clientUI/Chat";
+import { fetchDebate } from "@/services/fetchDebate";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
 export const DebateRoom = () => {
+  const {id} = useParams();
+  const {data, isSuccess} = useQuery({queryKey: ["debate-headline"], queryFn: () => fetchDebate(id)});
+
   return (
-    <div className="bg-gray-700 pt-6 pb-32 flex flex-col justify-center items-center min-h-screen">
-      <div className="flex flex-col justify-center mb-1 items-center">
-        <h2 className="text-3xl font-bold text-white">Debate Room</h2>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-full px-4">
-        <div className="col-span-1">
+    <div className="bg-gray-700 pt-10 flex flex-col justify-center items-center min-h-screen">
+        <h1 className="md:text-4xl font-bold text-white">{isSuccess ? `Debate: ${data.data.title}` : "Debate Room"}</h1>
+        <div className="flex md:flex-row flex-col md:items-start items-center gap-14 justify-center p-6 md:px-20 w-full my-7">
           <Chat />
-        </div>
-        <div className="col-span-1">
           <CommentSection />
         </div>
-      </div>
     </div>
   );
 };
