@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const generateAuthToken = (clientTime, user) => {
     clientTime = new Date(clientTime);
@@ -17,6 +19,7 @@ export const generateAuthToken = (clientTime, user) => {
         secure: true,
         maxAge: expiresIn * 1000, // ms
         partitioned: true,
+        domain: `${process.env.COOKIE_DOMAIN}`
     };
 
     return { token, cookieOpts };
