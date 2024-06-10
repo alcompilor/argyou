@@ -4,9 +4,9 @@ import { formatDate } from "@/utils/formatDate";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner, Alert } from "flowbite-react";
 
-export const Comment = ({ id, username, content, publishDate }) => {
+export const Comment = ({ username, content, publishDate }) => {
     const { data, status } = useQuery({
-        queryKey: [`user-comment-${id}`],
+        queryKey: [`user-comment-${username}`],
         queryFn: () => fetchUser(username),
     });
 
