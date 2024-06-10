@@ -36,6 +36,7 @@ export const CommentSection = () => {
                 {data.data.comments.map((item) => (
                     <Comment
                         key={item._id}
+                        id={item._id}
                         username={item.username}
                         content={item.content}
                         publishDate={item.publishDate}
