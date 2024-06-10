@@ -12,7 +12,13 @@ export const SignUp = () => {
 
     return (
         <>
-            <Meta title={"Argyou | Sign up"} desc={"Create a new Argyou account to participate in debates and manage your profile."} imgUrl={`${import.meta.env.VITE_SITE_URL}/default.png`}/>
+            <Meta
+                title={"Argyou | Sign up"}
+                desc={
+                    "Create a new Argyou account to participate in debates and manage your profile."
+                }
+                imgUrl={`${import.meta.env.VITE_SITE_URL}/default.png`}
+            />
             <div className="flex items-center justify-center min-h-screen bg-zinc-100">
                 <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-xl">
                     <div className="text-center">

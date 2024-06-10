@@ -1,10 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-export const Meta = ({
-    title,
-    desc,
-    imgUrl,
-}) => {
+export const Meta = ({ title, desc, imgUrl }) => {
     return (
         <Helmet>
             <title>{title}</title>

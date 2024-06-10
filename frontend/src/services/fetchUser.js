@@ -1,9 +1,12 @@
 export const fetchUser = async (username) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/${username}`, {
-            credentials: "include"
-        });
-        
+        const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/${username}`,
+            {
+                credentials: "include",
+            },
+        );
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

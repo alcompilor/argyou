@@ -32,13 +32,13 @@ const Signup = ({ onSignupSuccess }) => {
                 {
                     method: "POST",
                     body: formData,
-                }
+                },
             );
 
             const responseData = await response.json();
             if (!response.ok) {
                 throw new Error(
-                    responseData.error || "Failed to register user"
+                    responseData.error || "Failed to register user",
                 );
             }
 
