@@ -6,7 +6,7 @@ import { Spinner, Alert } from "flowbite-react";
 
 export const Comment = ({ id, username, content, publishDate }) => {
     const { data, status } = useQuery({
-        queryKey: [`user-comment-${id}`],
+        queryKey: [`user-${username}`],
         queryFn: () => fetchUser(username),
     });
 
