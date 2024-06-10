@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 
 export const CommentSection = () => {
     const { id } = useParams();
-    
+
     const { data, status, refetch } = useQuery({
         queryKey: ["debate-comments"],
         queryFn: () => fetchDebate(id),

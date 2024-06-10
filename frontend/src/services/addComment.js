@@ -9,7 +9,7 @@ export const addComment = async ({ id, content }) => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-            }
+            },
         );
 
         if (!res.ok) {

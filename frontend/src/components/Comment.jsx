@@ -31,7 +31,7 @@ export const Comment = ({ username, content, publishDate }) => {
                             src={`data:${
                                 data.data.avatar.mime
                             };base64,${bufferToBase64(
-                                data?.data?.avatar?.buffer?.data
+                                data?.data?.avatar?.buffer?.data,
                             )}`}
                             alt={data.data.fullName}
                         />

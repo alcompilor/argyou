@@ -53,7 +53,7 @@ export const TeamGrid = () => {
     return (
         <div id="team">
             <h2 className="text-4xl font-extrabold text-gray-800 text-center">
-                Meet our teem
+                Meet our team
             </h2>
             <div className="flex flex-wrap justify-center mt-10 gap-10 px-14 mb-20">
                 {teamData.map((item) => {

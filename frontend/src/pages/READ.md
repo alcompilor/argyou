@@ -2,7 +2,7 @@ This directory is designated for React pages. Ensure they are named in PascalCas
 
 Components should not be stored here. This directory should exclusively contain pages, such as:
 
-- ./Home.jsx
-- ./Contact.jsx
-- ./Room.jsx
-- ./SignIn.jsx
+-   ./Home.jsx
+-   ./Contact.jsx
+-   ./Room.jsx
+-   ./SignIn.jsx

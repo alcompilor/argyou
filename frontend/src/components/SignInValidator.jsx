@@ -23,7 +23,7 @@ export const SignInValidator = ({ onLoginSuccess }) => {
                         clientTime: new Date().toLocaleString(),
                     }),
                     credentials: "include",
-                }
+                },
             );
 
             const responseData = await response.json();
