@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Router";
+import { HelmetProvider } from "react-helmet-async";
 import "./App.css";
 
 const App = () => {
@@ -8,7 +9,9 @@ const App = () => {
     return (
         <>
             <QueryClientProvider client={queryClient}>
-                <RouterProvider router={router} />
+                <HelmetProvider>
+                    <RouterProvider router={router} />
+                </HelmetProvider>
             </QueryClientProvider>
         </>
     );
