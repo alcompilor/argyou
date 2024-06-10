@@ -31,10 +31,11 @@ export const AddDebate = () => {
         data.append("title", formData.title);
         data.append("startTime", formData.startTime);
         data.append("endTime", formData.endTime);
-        data.append(
-            "questions",
-            Object.values(formData.questions).filter(Boolean),
-        );
+        
+        Object.values(formData.questions)
+        .filter(Boolean)
+        .forEach(question => data.append("questions[]", question));
+
         if (formData.thumbnail) {
             data.append("thumbnail", formData.thumbnail);
         }
