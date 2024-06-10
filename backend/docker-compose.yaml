@@ -10,6 +10,11 @@ services:
     networks:
       - backend
     restart: always
+    environment:
+      MONGODB_URL: ${MONGODB_URL}
+      SECRET_KEY: ${SECRET_KEY}
+      COOKIE_DOMAIN: ${COOKIE_DOMAIN}
+      CORS_DOMAIN: ${CORS_DOMAIN}
 
   websocket:
     build:
@@ -20,6 +25,11 @@ services:
     networks:
       - backend
     restart: always
+    environment:
+      MONGODB_URL: ${MONGODB_URL}
+      SECRET_KEY: ${SECRET_KEY}
+      COOKIE_DOMAIN: ${COOKIE_DOMAIN}
+      CORS_DOMAIN: ${CORS_DOMAIN}
 
   nginx:
     image: nginx:1.27.0-alpine
