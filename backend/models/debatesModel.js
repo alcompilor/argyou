@@ -11,8 +11,8 @@ const debatesSchema = new Schema({
     title: {
         type: String,
         required: [true, "Debate title is required"],
-        minLength: [20, "Too short title"],
-        maxLength: 100,
+        minLength: [10, "Too short title"],
+        maxLength: 500,
     },
     creatorUsername: {
         type: String,
@@ -35,6 +35,10 @@ const debatesSchema = new Schema({
             return this.creatorUsername;
         },
     },
+    viewers: {
+        type: [String],
+        default: [],
+    },
     startTime: {
         type: Date,
         required: [true, "Predefined start time is needed"],
@@ -48,8 +52,8 @@ const debatesSchema = new Schema({
                 content: {
                     type: String,
                     required: true,
-                    minLength: 10,
-                    maxLength: 500,
+                    minLength: 1,
+                    maxLength: 1000,
                 },
                 username: {
                     type: String,
@@ -117,9 +121,6 @@ const debatesSchema = new Schema({
             },
         ],
     },
-    views: {
-        type: Number,
-    }
 });
 
 const Debate = mongoose.model("debates", debatesSchema);
