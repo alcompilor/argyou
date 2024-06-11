@@ -25,7 +25,8 @@ const useWebSocket = (url) => {
                 return event.data.errorMessage;
             } else {
                 try {
-                    const message = JSON.parse(event.data);
+                    console.log("Event data", event.data);
+                    const message = event.data;
                     setMessages((prevMessages) => {
                         const messageExists = prevMessages.some(
                             (msg) => msg === message,
@@ -119,7 +120,7 @@ export const Chat = () => {
     const renderError = () => (
         <Alert color="failure">
             <span className="font-semibold">Something went wrong</span> —{" "}
-            {error}
+            {debateError}
         </Alert>
     );
 
@@ -127,10 +128,10 @@ export const Chat = () => {
         <div className="flex justify-center items-center h-[560px] md:max-w-2xl w-full">
             <div className="h-full flex flex-col justify-center items-center relative w-full">
                 <div className="flex flex-col items-center space-y-4 p-3 bg-white shadow-md rounded-2xl w-full h-full">
-                    {!isConnected && !error && (
+                    {!isConnected && !debateError && (
                         <Spinner color="pink" aria-label="Loading Spinner" />
                     )}
-                    {error && renderError()}
+                    {debateError && renderError()}
                     {isConnected && isSuccess && (
                         <>
                             <div className="p-2 rounded-lg bg-gray-700 text-white font-medium text-sm w-full text-center">

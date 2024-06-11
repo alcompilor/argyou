@@ -184,3 +184,24 @@ export const addComment = async (req, res, next) => {
         next(new ErrorResponse(error.message, 400));
     }
 };
+
+export const addViewer = async (req, res, next) => {
+    try {
+        const { _id } = req.params;
+        const username = req.decodedToken.username;
+
+        let debate = await Debate.findById(_id);
+        if (!debate) {
+            return res.status(404).json(new ResponseData("Debate not found", 404));
+        }
+
+        if (!debate.viewers.includes(username)) {
+            debate.viewers.push(username);
+            debate = await debate.save();
+        }
+
+        res.status(200).json(new ResponseData("User joined a debate", 200, debate));
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400));
+    }
+};

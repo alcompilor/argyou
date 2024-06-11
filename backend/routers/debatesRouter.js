@@ -7,6 +7,7 @@ import {
     deleteDebate,
     addComment,
     addOpponent,
+    addViewer,
 } from "../controllers/debatesController.js";
 import hasPermission from "../middlewares/hasPermission.js";
 import isAuth from "../middlewares/isAuth.js";
@@ -46,5 +47,6 @@ debatesRouter
 
 debatesRouter.route("/:_id/comments").patch(isAuth, addComment);
 debatesRouter.route("/:_id/opponent").patch(isAuth, addOpponent);
+debatesRouter.route("/:_id/viewer").patch(isAuth, addViewer);
 
 export default debatesRouter;

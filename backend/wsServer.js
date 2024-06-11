@@ -14,12 +14,15 @@ const PORT = 3001;
 const wss = new WebSocketServer({ port: PORT });
 
 const activeConnections = new Map();
+const debateLocks = new Set();
 mountDB();
 
 wss.on("connection", async (ws, req) => {
   const parsedUrl = url.parse(req.url, true);
   const token = parsedUrl.query.token;
   const roomId = parsedUrl.query.room;
+
+  let debateStarted = false;
 
   if (!token || !roomId) {
     return sendAndClose(ws, "No token or room ID provided", true);
@@ -55,15 +58,20 @@ wss.on("connection", async (ws, req) => {
   const now = Date.now();
 
   if (startTime > now) {
-    return sendAndClose(ws, "The debate has not started yet", true);
-  } else if (endTime < now) {
-    return sendAndClose(ws, "The debate has already ended", true);
-  } else {
-    StartDebate(debate);
+    return sendAndClose(ws, JSON.stringify("The debate has not started yet"), true);
+  } 
+  
+  if (endTime < now) {
+    return sendAndClose(ws, JSON.stringify("The debate has already ended"), true);
   }
 
   if (debate.status === "Ended") {
-    return sendAndClose(ws, "Debate ended");
+    return sendAndClose(ws, JSON.stringify("Debate Ended"), true);
+  }
+
+  if (!debateStarted) {
+    StartDebate(debate);
+    debateStarted = true;
   }
 
   if (!activeConnections.has(roomId)) {
@@ -71,58 +79,82 @@ wss.on("connection", async (ws, req) => {
   }
   activeConnections.get(roomId).add(ws);
 
-  const getTurn = async () => {
-    const currentTime = Date.now();
-    const timeElapsed = currentTime - startTime;
-    const phaseDuration = 150000; // fixed on five minutes, change to 5000 (five seconds) during development/testing time
-    const totalPhaseTime = phaseDuration * 3;
-    const phaseIndex = Math.floor(timeElapsed / totalPhaseTime);
-
-    let creator = false;
-    let opponent = false;
-    let openChat = false;
-
-    console.log("Question index: ", questionIndex);
-    console.log("Question: ", questions.length);
-    if (questionIndex >= questions.length) {
-      EndDebate(debate);
-      return;
-    }
-
+  const waitForParticipants = async () => {
     try {
-      if (phaseIndex % 3 === 0) {
-        if (!creator) {
-          creator = true;
-          opponent = false;
-          openChat = false;
-          await UpdateTurn("creator", questions[questionIndex], debate);
-        }
-      } else if (phaseIndex % 3 === 1) {
-        if (!opponent) {
-          creator = false;
-          opponent = true;
-          openChat = false;
-          await UpdateTurn("opponent", questions[questionIndex], debate);
-        }
-      } else {
-        if (!openChat) {
-          creator = false;
-          opponent = false;
-          openChat = true;
-          await UpdateTurn("Open Chat", questions[questionIndex], debate);
-          questionIndex++;
-        }
+      debate = await Debate.findOne({ _id: roomId });
+      if (!debate.viewers.includes(debate.creatorUsername) || !debate.viewers.includes(debate.opponentUsername)) {
+        setTimeout(waitForParticipants, 1000);
+        return;
       }
+      startDebate();
     } catch (error) {
-      console.error(`Error during turn update: ${error}`);
+      console.error(`Error checking participants: ${error}`);
+      setTimeout(waitForParticipants, 1000);
     }
-
-    const nextTurnTime = startTime + (phaseIndex + 1) * totalPhaseTime;
-    const delay = nextTurnTime - currentTime;
-    setTimeout(getTurn, delay);
   };
 
-  setTimeout(getTurn, 0);
+  waitForParticipants();
+
+  const startDebate = () => {
+    if (debateLocks.has(roomId)) {
+      return;
+    }
+    debateLocks.add(roomId);
+
+    const getTurn = async () => {
+      const currentTime = Date.now();
+      const timeElapsed = currentTime - startTime;
+      const phaseDuration = 10000;
+      const totalPhaseTime = phaseDuration * 3;
+      const phaseIndex = Math.floor(timeElapsed / totalPhaseTime);
+
+      let creator = false;
+      let opponent = false;
+      let openChat = false;
+
+      console.log("Question index: ", questionIndex);
+      console.log("Question: ", questions.length);
+      if (questionIndex >= questions.length) {
+        EndDebate(debate);
+        debateLocks.delete(roomId);
+        return;
+      }
+
+      try {
+        if (phaseIndex % 3 === 0) {
+          if (!creator) {
+            creator = true;
+            opponent = false;
+            openChat = false;
+            await UpdateTurn("creator", questions[questionIndex], debate);
+          }
+        } else if (phaseIndex % 3 === 1) {
+          if (!opponent) {
+            creator = false;
+            opponent = true;
+            openChat = false;
+            await UpdateTurn("opponent", questions[questionIndex], debate);
+          }
+        } else {
+          if (!openChat) {
+            creator = false;
+            opponent = false;
+            openChat = true;
+            await UpdateTurn("Open Chat", questions[questionIndex], debate);
+            questionIndex++;
+          }
+        }
+      } catch (error) {
+        console.error(`Error during turn update: ${error}`);
+      }
+
+      const nextTurnTime = startTime + (phaseIndex + 1) * totalPhaseTime;
+      const delay = nextTurnTime - currentTime;
+      setTimeout(getTurn, delay);
+    };
+
+    setTimeout(getTurn, 0);
+  };
 
   ws.on("message", async (message, isBinary) => {
     console.log(`Received message: ${message}`);
