@@ -185,22 +185,26 @@ export const addComment = async (req, res, next) => {
     }
 };
 
-export const addViewer = async (req, res, next) => {
+export const addReadyDebater = async (req, res, next) => {
     try {
         const { _id } = req.params;
         const username = req.decodedToken.username;
 
         let debate = await Debate.findById(_id);
+
+        if (!(username === debate.creatorUsername || username === debate.opponentUsername)) {
+            return res.status(404).json(new ResponseData("User is not a debater", 404));
+        }
         if (!debate) {
             return res.status(404).json(new ResponseData("Debate not found", 404));
         }
 
-        if (!debate.viewers.includes(username)) {
-            debate.viewers.push(username);
+        if (!debate.readyDebaters.includes(username)) {
+            debate.readyDebaters.push(username);
             debate = await debate.save();
         }
 
-        res.status(200).json(new ResponseData("User joined a debate", 200, debate));
+        res.status(200).json(new ResponseData("Debater is ready", 200, debate));
     } catch (error) {
         next(new ErrorResponse(error.message, 400));
     }

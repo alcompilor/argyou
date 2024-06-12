@@ -35,7 +35,7 @@ const debatesSchema = new Schema({
             return this.creatorUsername;
         },
     },
-    viewers: {
+    readyDebaters: {
         type: [String],
         default: [],
     },
@@ -91,6 +91,7 @@ const debatesSchema = new Schema({
     },
     debatedQuestion: {
         type: String,
+        default: "",
     },
     status: {
         type: String,

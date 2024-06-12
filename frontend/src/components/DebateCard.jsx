@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "@/hooks/useAuthState";
 import { useMutation } from "@tanstack/react-query";
 import { addOpponent } from "@/services/addOpponent";
-import { joinDebate } from "@/services/joinDebate";
 import { useNavigate } from "react-router-dom";
 
 const parseDate = (startTime, endTime) => {
@@ -29,23 +28,13 @@ export const DebateCard = ({
   endTime,
   opponent,
   thumbnail = podcastSvg,
-  viewers: initialViewers,
 }) => {
   const authState = useAuthState();
   const { mutate, error, isSuccess } = useMutation({
     mutationFn: addOpponent,
   });
 
-  const {
-    mutate: mutateJoin,
-    error: joinError,
-    isSuccess: joinSucceeded,
-  } = useMutation({
-    mutationFn: joinDebate,
-  });
-
   const [opponentUser, setOpponentUser] = useState(opponent);
-  const [viewer, setViewer] = useState(initialViewers);
   const [base64Thumbnail, setBase64Thumbnail] = useState("");
   const navigate = useNavigate();
 
@@ -60,23 +49,15 @@ export const DebateCard = ({
     if (isSuccess) {
       setOpponentUser(authState);
     }
-    if (joinSucceeded) {
-      setViewer((prevViewers) => [...prevViewers, authState]);
-    }
-  }, [authState, isSuccess, joinSucceeded]);
+  }, [authState, isSuccess]);
 
   const handleJoinBtn = () => {
-    mutateJoin({ id, user: authState });
     navigate(`/room/${id}`);
   };
 
   const handleOpponentBtn = () => {
     mutate({ id, opponent: authState });
   };
-
-  if (joinSucceeded) {
-    console.log(viewer);
-  }
 
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
@@ -109,11 +90,6 @@ export const DebateCard = ({
         {error && (
           <p className="text-rose-600 mb-5">
             Error: Couldn&apos;t assign you as an opponent
-          </p>
-        )}
-        {joinError && (
-          <p className="text-rose-600 mb-5">
-            Error: Couldn&apos;t let you join the debate
           </p>
         )}
         <div className="flex gap-3">
