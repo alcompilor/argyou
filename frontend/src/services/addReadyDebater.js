@@ -1,7 +1,7 @@
-export const joinDebate = async ({id}) => {
+export const addReadyDebater = async ({id}) => {
     try {
         const res = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/api/v1/debates/${id}/viewer`,
+            `${import.meta.env.VITE_BACKEND_URL}/api/v1/debates/${id}/readyDebater`,
             {
                 credentials: "include",
                 method: "PATCH",
